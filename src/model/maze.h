@@ -11,8 +11,12 @@ namespace s21 {
 struct Cell {
   bool right_wall = 0;
   bool down_wall = 0;
-
   int set_id = 0;
+
+  bool operator==(const Cell &other) const {
+    return right_wall == other.right_wall && down_wall == other.down_wall &&
+           set_id == other.set_id;
+  }
 };
 
 class Maze {
@@ -53,7 +57,7 @@ class Maze {
       for (size_t j = 0; j < N_; j++) {
         bool right = grid_[i][j].right_wall;
         bool down = grid_[i][j].down_wall;
-        
+
         if (right && down) {
           std::cout << "_|";
         } else if (right) {
