@@ -3,19 +3,22 @@
 
 #include <cstddef>
 #include <iostream>
+#include <random>
 #include <vector>
 
 namespace s21 {
 
 struct Cell {
-  bool right_wall;
-  bool down_wall;
+  bool right_wall = 0;
+  bool down_wall = 0;
+
+  int set_id = 0;
 };
 
 class Maze {
  public:
-  Maze(std::vector<std::vector<Cell>>&& grid)
-      : grid_(std::move(grid)), M_(grid_.size()), N_(grid_[0].size()) {}
+  Maze(std::vector<std::vector<Cell>> grid)
+      : grid_(grid), M_(grid.size()), N_(grid[0].size()) {}
 
   Maze(std::vector<std::vector<int>> right_walls,
        std::vector<std::vector<int>> down_walls) {
@@ -45,12 +48,12 @@ class Maze {
 
   size_t getN() { return N_; }
 
-  void Print() {
+  void print() {
     for (size_t i = 0; i < M_; i++) {
       for (size_t j = 0; j < N_; j++) {
         bool right = grid_[i][j].right_wall;
         bool down = grid_[i][j].down_wall;
-
+        
         if (right && down) {
           std::cout << "_|";
         } else if (right) {

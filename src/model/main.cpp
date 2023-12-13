@@ -1,7 +1,8 @@
 #include <vector>
 
-#include "maze.h"
 #include "filereader.h"
+#include "maze.h"
+#include "mazegenerator.h"
 
 int main() {
   using namespace s21;
@@ -29,14 +30,18 @@ int main() {
 
   // for (size_t i = 0; i < maze.getM(); i++) {
   //   for (size_t j = 0; j < maze.getN(); j++) {
-  //     std::cout << matrix[i][j].down_wall << " " << matrix[i][j].right_wall << std::endl;
+  //     std::cout << matrix[i][j].down_wall << " " << matrix[i][j].right_wall
+  //     << std::endl;
   //   }
   // }
 
-  FileReader reader;
+  // FileReader reader;
 
-  Maze maze = reader.loadMaze("test.txt");
-  maze.Print();
+  // Maze maze = reader.loadMaze("test.txt");
+  // maze.print();
+  MazeGenerator generator;
+  auto mz = generator.generatePerfectMaze(3, 3);
+  mz.print();
 
   return 0;
 }
