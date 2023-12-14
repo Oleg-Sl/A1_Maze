@@ -11,15 +11,15 @@ class MazeGenerator : BaseMazeGenerator {
   Maze generateMaze(size_t M, size_t N);
 
  private:
-  void gen_preprocessing(std::vector<std::vector<Cell>>& grid, size_t num_row);
-  void gen_right_walls(std::vector<Cell>& curr_row);
-  void gen_down_walls(std::vector<Cell>& curr_row);
-  void gen_postprocessing(std::vector<Cell>& curr_row);
+  void genPreprocessing(std::vector<std::vector<Cell>>& grid, size_t num_row);
+  void genRightWalls(std::vector<Cell>& curr_row);
+  void genDownWalls(std::vector<Cell>& curr_row);
+  void genPostprocessing(std::vector<Cell>& curr_row);
 
  private:
-  std::random_device rd{};
-  std::mt19937 gen{rd()};
-  std::uniform_int_distribution<> dist{0, 1};
+  std::random_device rd_{};
+  std::mt19937 gen_{rd_()};
+  std::uniform_int_distribution<> dist_{0, 1};
 };
 
 }  // namespace s21
