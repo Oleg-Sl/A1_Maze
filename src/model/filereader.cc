@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "include/filereader.h"
 
 namespace s21 {
@@ -7,14 +9,14 @@ Maze FileReader::loadMaze(const std::string filename) {
   size_t M, N;
 
   if (!filestream.is_open()) {
-    std::cout << "Not openned";
+    throw std::invalid_argument("Incorrect filename");
   }
 
   filestream >> M >> N;
 
   std::vector<std::vector<int>> right_walls(M, std::vector<int>());
   std::vector<std::vector<int>> down_walls(M, std::vector<int>());
-    
+
   for (size_t i = 0; i < M; i++) {
     for (size_t j = 0; j < N; j++) {
       int curr_value;
