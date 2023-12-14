@@ -1,4 +1,4 @@
-#include "include/mazegenerator.h"
+#include "mazegenerator.h"
 
 namespace s21 {
 
@@ -49,7 +49,7 @@ void MazeGenerator::genRightWalls(std::vector<Cell>& curr_row) {
       if (curr_row[element].set_id == curr_row[element + 1].set_id) {
         curr_row[element].right_wall = 1;
       } else {
-        for (int i = 0; i < N; i++) {
+        for (size_t i = 0; i < N; i++) {
           if (curr_row[i].set_id == curr_row[element + 1].set_id) {
             curr_row[i].set_id = curr_row[element].set_id;
           }
@@ -67,7 +67,7 @@ void MazeGenerator::genDownWalls(std::vector<Cell>& curr_row) {
       curr_row[element].down_wall = 0;
     } else {
       int count_down_walls = 0;
-      for (int i = 0; i < N; i++) {
+      for (size_t i = 0; i < N; i++) {
         if (curr_row[element].set_id == curr_row[i].set_id &&
             !curr_row[i].down_wall) {
           count_down_walls++;
@@ -91,7 +91,7 @@ void MazeGenerator::genPostprocessing(std::vector<Cell>& curr_row) {
       curr_row[element].right_wall = 0;
     }
 
-    for (int i = 0; i < N; i++) {
+    for (size_t i = 0; i < N; i++) {
       if (curr_row[i].set_id == curr_row[element + 1].set_id) {
         curr_row[i].set_id = curr_row[element].set_id;
       }

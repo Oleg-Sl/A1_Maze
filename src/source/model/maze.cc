@@ -1,4 +1,4 @@
-#include "include/maze.h"
+#include "maze.h"
 
 namespace s21 {
 
