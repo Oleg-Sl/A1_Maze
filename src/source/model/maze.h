@@ -15,6 +15,7 @@ class Maze {
   Maze(std::vector<std::vector<Cell>> grid);
   Maze(std::vector<std::vector<int>> right_walls,
        std::vector<std::vector<int>> down_walls);
+  Maze();
 
   std::vector<std::vector<Cell>> getGrid() const;
   size_t getM() const;

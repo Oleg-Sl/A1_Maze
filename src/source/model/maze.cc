@@ -2,6 +2,8 @@
 
 namespace s21 {
 
+Maze::Maze() {}
+
 Maze::Maze(std::vector<std::vector<Cell>> grid)
     : M_(grid.size()), N_(grid[0].size()), grid_(grid) {}
 

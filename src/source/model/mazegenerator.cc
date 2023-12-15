@@ -3,6 +3,10 @@
 namespace s21 {
 
 Maze MazeGenerator::generateMaze(size_t M, size_t N) {
+  if (M == 0 || N == 0) {
+    return Maze();
+  }
+
   std::vector<std::vector<Cell>> grid(M, std::vector<Cell>(N, {0}));
 
   for (size_t row = 0; row < M; row++) {
@@ -82,26 +86,26 @@ void MazeGenerator::genDownWalls(std::vector<Cell>& curr_row) {
 }
 
 void MazeGenerator::genPostprocessing(std::vector<std::vector<Cell>>& grid) {
-  size_t N = grid.size();
-  size_t M = grid[0].size();
+  size_t M = grid.size();
+  size_t N = M == 0 ? 0 : grid[0].size();
 
   for (size_t element = 0; element < N - 1; element++) {
-    grid[N - 1][element].down_wall = 1;
+    grid[M - 1][element].down_wall = 1;
 
-    if (grid[N - 1][element].set_id != grid[N - 1][element + 1].set_id) {
-      grid[N - 1][element].right_wall = 0;
+    if (grid[M - 1][element].set_id != grid[M - 1][element + 1].set_id) {
+      grid[M - 1][element].right_wall = 0;
     }
 
     for (size_t i = 0; i < N; i++) {
-      if (grid[N - 1][i].set_id == grid[N - 1][element + 1].set_id) {
-        grid[N - 1][i].set_id = grid[N - 1][element].set_id;
+      if (grid[M - 1][i].set_id == grid[M - 1][element + 1].set_id) {
+        grid[M - 1][i].set_id = grid[M - 1][element].set_id;
       }
     }
   }
 
   for (size_t i = 0; i < N; i++) {
     grid[0][i].up_wall = 1;
-    grid[N - 1][i].down_wall = 1;
+    grid[M - 1][i].down_wall = 1;
   }
 
   for (size_t i = 0; i < M; i++) {
