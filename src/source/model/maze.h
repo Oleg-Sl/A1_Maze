@@ -6,15 +6,9 @@
 #include <random>
 #include <vector>
 
+#include "cell.h"
+
 namespace s21 {
-
-struct Cell {
-  bool right_wall = 0;
-  bool down_wall = 0;
-  int set_id = 0;
-
-  bool operator==(const Cell &other) const;
-};
 
 class Maze {
  public:
@@ -22,9 +16,11 @@ class Maze {
   Maze(std::vector<std::vector<int>> right_walls,
        std::vector<std::vector<int>> down_walls);
 
-  std::vector<std::vector<Cell>> getGrid();
-  size_t getM();
-  size_t getN();
+  std::vector<std::vector<Cell>> getGrid() const;
+  size_t getM() const;
+  size_t getN() const;
+
+  void setGrid(const std::vector<std::vector<Cell>> &grid);
 
   void print();
 

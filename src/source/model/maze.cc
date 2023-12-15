@@ -2,11 +2,6 @@
 
 namespace s21 {
 
-bool Cell::operator==(const Cell &other) const {
-  return right_wall == other.right_wall && down_wall == other.down_wall &&
-         set_id == other.set_id;
-}
-
 Maze::Maze(std::vector<std::vector<Cell>> grid)
     : M_(grid.size()), N_(grid[0].size()), grid_(grid) {}
 
@@ -32,11 +27,12 @@ Maze::Maze(std::vector<std::vector<int>> right_walls,
   }
 }
 
-std::vector<std::vector<Cell>> Maze::getGrid() { return grid_; }
+std::vector<std::vector<Cell>> Maze::getGrid() const { return grid_; }
+void Maze::setGrid(const std::vector<std::vector<Cell>> &grid) { grid_ = grid; }
 
-size_t Maze::getM() { return M_; }
+size_t Maze::getM() const { return M_; }
 
-size_t Maze::getN() { return N_; }
+size_t Maze::getN() const { return N_; }
 
 void Maze::print() {
   for (size_t i = 0; i < M_; i++) {

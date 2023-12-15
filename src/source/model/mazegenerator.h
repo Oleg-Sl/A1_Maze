@@ -14,7 +14,7 @@ class MazeGenerator : BaseMazeGenerator {
   void genPreprocessing(std::vector<std::vector<Cell>>& grid, size_t num_row);
   void genRightWalls(std::vector<Cell>& curr_row);
   void genDownWalls(std::vector<Cell>& curr_row);
-  void genPostprocessing(std::vector<Cell>& curr_row);
+  void genPostprocessing(std::vector<std::vector<Cell>>& grid);
 
  private:
   std::random_device rd_{};
