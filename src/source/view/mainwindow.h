@@ -5,6 +5,7 @@
 #include <QMainWindow>
 
 #include "maze.h"
+#include "mazecontroller.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -18,7 +19,7 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
  public:
-  MainWindow(QWidget *parent = nullptr);
+  MainWindow(MazeController controller, QWidget *parent = nullptr);
   ~MainWindow();
   void drawMaze(QGraphicsScene &scene, const Maze &maze);
   void drawCell(QGraphicsScene &scene, const Cell &cell, qreal x, qreal y,
@@ -26,7 +27,8 @@ class MainWindow : public QMainWindow {
   void draw();
 
  private:
-  Ui::MainWindow *ui;
+  s21::MazeController controller_;
+  Ui::MainWindow *ui_;
 };
 
 }  // namespace s21

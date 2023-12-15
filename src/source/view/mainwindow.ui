@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>824</width>
+    <height>525</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>505</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>525</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Maze</string>
@@ -39,19 +51,6 @@
         </property>
        </widget>
       </item>
-      <item>
-       <spacer name="vspacer_screen">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
      </layout>
     </item>
     <item row="0" column="2" rowspan="2">
@@ -66,13 +65,6 @@
           <string>Maze</string>
          </attribute>
          <layout class="QGridLayout" name="gridLayout_3">
-          <item row="1" column="0">
-           <widget class="QPushButton" name="button_generate">
-            <property name="text">
-             <string>Generate</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="0">
            <widget class="QPushButton" name="button_import">
             <property name="text">
@@ -81,6 +73,42 @@
            </widget>
           </item>
           <item row="2" column="0">
+           <widget class="QGroupBox" name="group_generation">
+            <property name="title">
+             <string>Generation</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_cols">
+               <property name="text">
+                <string>cols</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QSpinBox" name="spin_rows"/>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_rows">
+               <property name="text">
+                <string>rows</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QSpinBox" name="spin_cols"/>
+             </item>
+             <item row="2" column="0" colspan="2">
+              <widget class="QPushButton" name="button_generate">
+               <property name="text">
+                <string>Generate</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="4" column="0">
            <spacer name="vspacer_form">
             <property name="orientation">
              <enum>Qt::Vertical</enum>

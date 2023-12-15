@@ -3,15 +3,14 @@
 
 #include "./ui_mainwindow.h"
 #include "mainwindow.h"
-#include "mazegenerator.h"
 
 namespace s21 {
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
-  ui->setupUi(this);
+MainWindow::MainWindow(MazeController controller, QWidget *parent)
+    : QMainWindow(parent), controller_(controller), ui_(new Ui::MainWindow) {
+  ui_->setupUi(this);
 
-  connect(ui->button_generate, &QPushButton::clicked, this, &MainWindow::draw);
+  connect(ui_->button_generate, &QPushButton::clicked, this, &MainWindow::draw);
 }
 
 void MainWindow::drawCell(QGraphicsScene &scene, const Cell &cell, qreal x1,
@@ -68,17 +67,18 @@ void MainWindow::drawMaze(QGraphicsScene &scene, const Maze &maze) {
 }
 
 void MainWindow::draw() {
-  MazeGenerator g;
-  Maze test = g.generateMaze(50, 50);
+  size_t rows = ui_->spin_rows->value();
+  size_t cols = ui_->spin_cols->value();
+  Maze test = controller_.generateMaze(rows, cols);
 
   QGraphicsScene *scene = new QGraphicsScene;
   scene->setSceneRect(0, 0, 500, 500);
 
   drawMaze(*scene, test);
 
-  ui->view_screen->setScene(scene);
+  ui_->view_screen->setScene(scene);
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow() { delete ui_; }
 
 }  // namespace s21
