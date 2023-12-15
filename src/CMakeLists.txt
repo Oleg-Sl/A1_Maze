@@ -8,7 +8,7 @@ add_compile_options(-Wall -Wextra -pedantic -Werror)
 
 # Находим все исходные файлы в директории source/model
 file(GLOB MODEL_SOURCES "source/model/*.cc")
-file(GLOB MODEL_HEADERS "source/model/include/*.h")
+file(GLOB MODEL_HEADERS "source/model/*.h")
 
 add_subdirectory(tests)
 add_subdirectory(source)

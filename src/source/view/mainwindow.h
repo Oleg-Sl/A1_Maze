@@ -1,21 +1,33 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef __MAZE_SOURCE_VIEW_MAINWINDOW_H__
+#define __MAZE_SOURCE_VIEW_MAINWINDOW_H__
 
+#include <QGraphicsScene>
 #include <QMainWindow>
 
+#include "maze.h"
+
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
+namespace s21 {
 
-public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+class MainWindow : public QMainWindow {
+  Q_OBJECT
 
-private:
-    Ui::MainWindow *ui;
+ public:
+  MainWindow(QWidget *parent = nullptr);
+  ~MainWindow();
+  void drawMaze(QGraphicsScene &scene, const Maze &maze);
+  void drawCell(QGraphicsScene &scene, const Cell &cell, qreal x, qreal y,
+                qreal x1, qreal y1);
+  void draw();
+
+ private:
+  Ui::MainWindow *ui;
 };
-#endif // MAINWINDOW_H
+
+}  // namespace s21
+#endif  // __MAZE_SOURCE_VIEW_MAINWINDOW_H__

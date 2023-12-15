@@ -13,6 +13,9 @@ add_executable(${PROJECT_NAME}
     view/mainwindow.cc
     view/mainwindow.h
     view/mainwindow.ui
+    ${MODEL_SOURCES}
 )
+
+target_include_directories(${PROJECT_NAME} PUBLIC "model/")
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)

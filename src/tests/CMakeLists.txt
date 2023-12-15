@@ -6,7 +6,7 @@ file(GLOB TEST_SOURCES "*.cc")
 add_executable(${PROJECT_NAME} ${MODEL_SOURCES} ${MODEL_HEADERS} ${TEST_SOURCES})
 
 # Включаем папку с заголовочными файлами для проекта, чтобы не писать относительные пути
-target_include_directories(${PROJECT_NAME} PUBLIC "../source/model/include/")
+target_include_directories(${PROJECT_NAME} PUBLIC "../source/model/")
 
 # Линкуем Google Test с проектом
 find_package(GTest REQUIRED)
