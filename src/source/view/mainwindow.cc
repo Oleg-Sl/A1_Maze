@@ -47,10 +47,10 @@ void MainWindow::drawMaze(QGraphicsScene &scene, const Maze &maze) {
 
   std::vector<std::vector<Cell>> grid = maze.getGrid();
 
-  int cell_height = scene_rect.height() / M;
-  int cell_width = scene_rect.width() / N;
+  qreal cell_height = scene_rect.height() / M;
+  qreal cell_width = scene_rect.width() / N;
 
-  int line_width = 1;
+  int line_width = 0;
 
   for (size_t row = 0; row < M; row++) {
     for (size_t col = 0; col < N; col++) {
@@ -60,9 +60,7 @@ void MainWindow::drawMaze(QGraphicsScene &scene, const Maze &maze) {
       qreal x1 = col * cell_width + line_width;
       qreal x2 = (col + 1) * cell_width + line_width;
 
-      qDebug() << x1 << " " << y1 << " " << x2 << " " << y2 << "\n";
-      qDebug() << col << " " << row << " "
-               << "\n";
+      // qDebug() << x1 << y1 << x2 << y2;
 
       drawCell(scene, grid[row][col], x1, y1, x2, y2);
     }
@@ -71,7 +69,7 @@ void MainWindow::drawMaze(QGraphicsScene &scene, const Maze &maze) {
 
 void MainWindow::draw() {
   MazeGenerator g;
-  Maze test = g.generateMaze(30, 30);
+  Maze test = g.generateMaze(50, 50);
 
   QGraphicsScene *scene = new QGraphicsScene;
   scene->setSceneRect(0, 0, 500, 500);
