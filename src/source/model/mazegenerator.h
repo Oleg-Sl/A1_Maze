@@ -8,7 +8,8 @@ namespace s21 {
 
 class MazeGenerator : BaseMazeGenerator {
  public:
-  Maze generateMaze(size_t M, size_t N);
+  Maze generateMaze(size_t rows, size_t cols);
+  void unionSets(std::vector<size_t>& sets, size_t set1, size_t set2);
 
  private:
   void genPreprocessing(std::vector<std::vector<Cell>>& grid, size_t num_row);

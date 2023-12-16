@@ -9,14 +9,10 @@ struct Cell {
   bool up_wall = 0;
   bool down_wall = 0;
 
-  int set_id = 0;
-
   bool operator==(const Cell &other) const {
     return right_wall == other.right_wall && down_wall == other.down_wall &&
-           set_id == other.set_id && up_wall == other.up_wall &&
-           left_wall == other.left_wall;
+           up_wall == other.up_wall && left_wall == other.left_wall;
   }
-
 };
 
 }  // namespace s21
