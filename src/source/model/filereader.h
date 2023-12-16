@@ -1,5 +1,5 @@
-#ifndef __MAZE_MODEL_FILEREADER_H_
-#define __MAZE_MODEL_FILEREADER_H_
+#ifndef __MAZE_SOURCE_MODEL_FILEREADER_H__
+#define __MAZE_SOURCE_MODEL_FILEREADER_H__
 
 #include <cstddef>
 #include <fstream>
@@ -16,4 +16,4 @@ class FileReader {
 
 }  // namespace s21
 
-#endif  // __MAZE_MODEL_FILEREADER_H_
+#endif  // __MAZE_SOURCE_MODEL_FILEREADER_H__

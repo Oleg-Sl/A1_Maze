@@ -1,5 +1,5 @@
-#ifndef __MAZE_VIEW_MAZECELL_H__
-#define __MAZE_VIEW_MAZECELL_H__
+#ifndef __MAZE_SOURCE_VIEW_MAZECELL_H__
+#define __MAZE_SOURCE_VIEW_MAZECELL_H__
 
 namespace s21 {
 
@@ -12,4 +12,4 @@ struct MazeCell {
 
 }  // namespace s21
 
-#endif  // __MAZE_VIEW_MAZECELL_H__
+#endif  // __MAZE_SOURCE_VIEW_MAZECELL_H__

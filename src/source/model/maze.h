@@ -1,5 +1,5 @@
-#ifndef __MAZE_MODEL_MAZE_H__
-#define __MAZE_MODEL_MAZE_H__
+#ifndef __MAZE_SOURCE_MODEL_MAZE_H__
+#define __MAZE_SOURCE_MODEL_MAZE_H__
 
 #include <cstddef>
 #include <iostream>
@@ -37,4 +37,4 @@ class Maze {
 
 }  // namespace s21
 
-#endif  // __MAZE_MODEL_MAZE_H__
+#endif  // __MAZE_SOURCE_MODEL_MAZE_H__

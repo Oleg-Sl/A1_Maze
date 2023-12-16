@@ -1,5 +1,5 @@
-#ifndef __MAZE_SOURCE_VIEW_QGRAPHICHSCELLITEM_H__
-#define __MAZE_SOURCE_VIEW_QGRAPHICHSCELLITEM_H__
+#ifndef __MAZE_SOURCE_VIEW_QGRAPHICSCELLITEM_H__
+#define __MAZE_SOURCE_VIEW_QGRAPHICSCELLITEM_H__
 
 #include <QBrush>
 #include <QGraphicsItem>
@@ -39,4 +39,4 @@ class QGraphicsCellItem : public QGraphicsItem {
 
 }  // namespace s21
 
-#endif  // __MAZE_SOURCE_VIEW_QGRAPHICHSCELLITEM_H__
+#endif  // __MAZE_SOURCE_VIEW_QGRAPHICSCELLITEM_H__
