@@ -12,11 +12,15 @@ namespace s21 {
 
 class Maze {
  public:
+  enum class WallPosition { kUp, kDown, kLeft, kRight };
+
+ public:
   Maze(std::vector<std::vector<Cell>> grid);
   Maze(std::vector<std::vector<int>> right_walls,
        std::vector<std::vector<int>> down_walls);
   Maze();
 
+  std::vector<std::vector<int>> getWallMatrix(WallPosition position);
   std::vector<std::vector<Cell>> getGrid() const;
   size_t getM() const;
   size_t getN() const;

@@ -5,7 +5,8 @@
 #include <QMainWindow>
 #include <vector>
 
-#include "mazecontroller.h"
+#include "adapter.h"
+#include "mazecell.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -15,25 +16,18 @@ QT_END_NAMESPACE
 
 namespace s21 {
 
-struct MazeCell {
-  bool up_wall;
-  bool down_wall;
-  bool right_wall;
-  bool left_wall;
-};
-
 class MainWindow : public QMainWindow {
   Q_OBJECT
 
  public:
-  MainWindow(MazeController controller, QWidget *parent = nullptr);
+  MainWindow(Adapter adapter, QWidget *parent = nullptr);
   ~MainWindow();
   void drawMaze(QGraphicsScene &scene,
                 const std::vector<std::vector<MazeCell>> &grid);
   void draw();
 
  private:
-  s21::MazeController controller_;
+  s21::Adapter adapter_;
   Ui::MainWindow *ui_;
 };
 

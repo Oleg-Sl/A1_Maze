@@ -7,8 +7,8 @@
 
 namespace s21 {
 
-MainWindow::MainWindow(MazeController controller, QWidget *parent)
-    : QMainWindow(parent), controller_(controller), ui_(new Ui::MainWindow) {
+MainWindow::MainWindow(Adapter adapter, QWidget *parent)
+    : QMainWindow(parent), adapter_(adapter), ui_(new Ui::MainWindow) {
   ui_->setupUi(this);
 
   connect(ui_->button_generate, &QPushButton::clicked, this, &MainWindow::draw);
@@ -45,28 +45,15 @@ void MainWindow::drawMaze(QGraphicsScene &scene,
 }
 
 void MainWindow::draw() {
-  size_t rows = ui_->spin_rows->value();
-  size_t cols = ui_->spin_cols->value();
-  Maze maze = controller_.generateMaze(rows, cols);
-
   QGraphicsScene *scene = new QGraphicsScene;
   scene->setSceneRect(0, 0, 500, 500);
 
-  auto grid = maze.getGrid();
-  std::vector<std::vector<MazeCell>> view_grid(
-      maze.getM(), std::vector<MazeCell>(maze.getN(), {0, 0, 0, 0}));
+  size_t rows = ui_->spin_rows->value();
+  size_t cols = ui_->spin_cols->value();
 
-  for (size_t i = 0; i < maze.getM(); i++) {
-    for (size_t j = 0; j < maze.getN(); j++) {
-      bool down = grid[i][j].down_wall;
-      bool up = grid[i][j].up_wall;
-      bool left = grid[i][j].left_wall;
-      bool right = grid[i][j].right_wall;
-      view_grid[i][j] = {up, down, right, left};
-    }
-  }
+  std::vector<std::vector<MazeCell>> maze = adapter_.generateMaze(rows, cols);
 
-  drawMaze(*scene, view_grid);
+  drawMaze(*scene, maze);
 
   ui_->view_screen->setScene(scene);
 }

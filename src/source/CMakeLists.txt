@@ -15,10 +15,11 @@ add_executable(${PROJECT_NAME}
     view/qgraphicscellitem.h
     view/qgraphicscellitem.cc
     view/mainwindow.ui
-    controller/mazecontroller.cc
+    view/mazecell.h
+    adapter/adapter.cc
     ${MODEL_SOURCES}
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC "model/" "view/" "controller/")
+target_include_directories(${PROJECT_NAME} PUBLIC "model/" "view/" "adapter/")
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)

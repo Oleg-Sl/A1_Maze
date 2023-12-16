@@ -29,7 +29,28 @@ Maze::Maze(std::vector<std::vector<int>> right_walls,
   }
 }
 
+std::vector<std::vector<int>> Maze::getWallMatrix(WallPosition position) {
+  std::vector<std::vector<int>> result(M_, std::vector<int>(N_, 0));
+
+  for (size_t row = 0; row < M_; row++) {
+    for (size_t col = 0; col < N_; col++) {
+      if (position == WallPosition::kUp) {
+        result[row][col] = grid_[row][col].up_wall;
+      } else if (position == WallPosition::kDown) {
+        result[row][col] = grid_[row][col].down_wall;
+      } else if (position == WallPosition::kLeft) {
+        result[row][col] = grid_[row][col].left_wall;
+      } else if (position == WallPosition::kRight) {
+        result[row][col] = grid_[row][col].right_wall;
+      }
+    }
+  }
+
+  return result;
+}
+
 std::vector<std::vector<Cell>> Maze::getGrid() const { return grid_; }
+
 void Maze::setGrid(const std::vector<std::vector<Cell>> &grid) { grid_ = grid; }
 
 size_t Maze::getM() const { return M_; }
