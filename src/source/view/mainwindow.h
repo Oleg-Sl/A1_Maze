@@ -3,8 +3,8 @@
 
 #include <QGraphicsScene>
 #include <QMainWindow>
+#include <vector>
 
-#include "maze.h"
 #include "mazecontroller.h"
 
 QT_BEGIN_NAMESPACE
@@ -15,15 +15,21 @@ QT_END_NAMESPACE
 
 namespace s21 {
 
+struct MazeCell {
+  bool up_wall;
+  bool down_wall;
+  bool right_wall;
+  bool left_wall;
+};
+
 class MainWindow : public QMainWindow {
   Q_OBJECT
 
  public:
   MainWindow(MazeController controller, QWidget *parent = nullptr);
   ~MainWindow();
-  void drawMaze(QGraphicsScene &scene, const Maze &maze);
-  void drawCell(QGraphicsScene &scene, const Cell &cell, qreal x, qreal y,
-                qreal x1, qreal y1);
+  void drawMaze(QGraphicsScene &scene,
+                const std::vector<std::vector<MazeCell>> &grid);
   void draw();
 
  private:

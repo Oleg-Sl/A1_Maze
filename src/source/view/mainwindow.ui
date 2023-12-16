@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>824</width>
+    <width>793</width>
     <height>525</height>
    </rect>
   </property>
@@ -65,11 +65,88 @@
           <string>Maze</string>
          </attribute>
          <layout class="QGridLayout" name="gridLayout_3">
-          <item row="0" column="0">
-           <widget class="QPushButton" name="button_import">
-            <property name="text">
-             <string>Import </string>
+          <item row="3" column="0">
+           <widget class="QGroupBox" name="group_solution">
+            <property name="title">
+             <string>Solution</string>
             </property>
+            <layout class="QGridLayout" name="gridLayout_4">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_x">
+               <property name="text">
+                <string>X</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="QLabel" name="label_start_point">
+               <property name="text">
+                <string>Start point</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QSpinBox" name="spin_start_y"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QSpinBox" name="spin_start_x"/>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_y">
+               <property name="text">
+                <string>Y</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QSpinBox" name="spin_end_x"/>
+             </item>
+             <item row="4" column="0" colspan="2">
+              <widget class="QLabel" name="label_end_point">
+               <property name="text">
+                <string>End point</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QSpinBox" name="spin_end_y"/>
+             </item>
+             <item row="6" column="0" colspan="2">
+              <widget class="QPushButton" name="button_build_path">
+               <property name="text">
+                <string>Build path</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QGroupBox" name="group_file">
+            <property name="title">
+             <string>File</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_5">
+             <item row="0" column="0">
+              <widget class="QPushButton" name="button_import">
+               <property name="text">
+                <string>Import </string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item row="2" column="0">
@@ -86,7 +163,14 @@
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QSpinBox" name="spin_rows"/>
+              <widget class="QSpinBox" name="spin_rows">
+               <property name="minimum">
+                <number>2</number>
+               </property>
+               <property name="value">
+                <number>6</number>
+               </property>
+              </widget>
              </item>
              <item row="0" column="0">
               <widget class="QLabel" name="label_rows">
@@ -96,7 +180,14 @@
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QSpinBox" name="spin_cols"/>
+              <widget class="QSpinBox" name="spin_cols">
+               <property name="minimum">
+                <number>2</number>
+               </property>
+               <property name="value">
+                <number>6</number>
+               </property>
+              </widget>
              </item>
              <item row="2" column="0" colspan="2">
               <widget class="QPushButton" name="button_generate">

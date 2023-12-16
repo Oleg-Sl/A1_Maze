@@ -17,14 +17,6 @@ struct Cell {
            left_wall == other.left_wall;
   }
 
-  void fill() {
-    right_wall = 1;
-    left_wall = 1;
-    up_wall = 1;
-    down_wall = 1;
-  }
-
-  bool isFilled() const { return right_wall && left_wall && up_wall && down_wall; }
 };
 
 }  // namespace s21

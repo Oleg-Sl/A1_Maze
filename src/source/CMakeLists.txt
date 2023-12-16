@@ -12,6 +12,8 @@ add_executable(${PROJECT_NAME}
     main.cc
     view/mainwindow.cc
     view/mainwindow.h
+    view/qgraphicscellitem.h
+    view/qgraphicscellitem.cc
     view/mainwindow.ui
     controller/mazecontroller.cc
     ${MODEL_SOURCES}

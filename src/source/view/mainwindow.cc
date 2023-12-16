@@ -3,6 +3,7 @@
 
 #include "./ui_mainwindow.h"
 #include "mainwindow.h"
+#include "qgraphicscellitem.h"
 
 namespace s21 {
 
@@ -13,38 +14,11 @@ MainWindow::MainWindow(MazeController controller, QWidget *parent)
   connect(ui_->button_generate, &QPushButton::clicked, this, &MainWindow::draw);
 }
 
-void MainWindow::drawCell(QGraphicsScene &scene, const Cell &cell, qreal x1,
-                          qreal y1, qreal x2, qreal y2) {
-  if (cell.isFilled()) {
-    QGraphicsRectItem *rect = new QGraphicsRectItem(x1, y1, x2, y2);
-    rect->setBrush(QBrush(Qt::black));
-    scene.addItem(rect);
-  } else {
-    if (cell.up_wall) {
-      QGraphicsLineItem *up_wall = new QGraphicsLineItem(x1, y1, x2, y1);
-      scene.addItem(up_wall);
-    }
-    if (cell.down_wall) {
-      QGraphicsLineItem *down_wall = new QGraphicsLineItem(x1, y2, x2, y2);
-      scene.addItem(down_wall);
-    }
-    if (cell.left_wall) {
-      QGraphicsLineItem *left_wall = new QGraphicsLineItem(x1, y1, x1, y2);
-      scene.addItem(left_wall);
-    }
-    if (cell.right_wall) {
-      QGraphicsLineItem *right_wall = new QGraphicsLineItem(x2, y1, x2, y2);
-      scene.addItem(right_wall);
-    }
-  }
-}
-
-void MainWindow::drawMaze(QGraphicsScene &scene, const Maze &maze) {
+void MainWindow::drawMaze(QGraphicsScene &scene,
+                          const std::vector<std::vector<MazeCell>> &grid) {
   QRectF scene_rect = scene.sceneRect();
-  size_t M = maze.getM();
-  size_t N = maze.getN();
-
-  std::vector<std::vector<Cell>> grid = maze.getGrid();
+  size_t M = grid.size();
+  size_t N = M == 0 ? 0 : grid[0].size();
 
   qreal cell_height = scene_rect.height() / M;
   qreal cell_width = scene_rect.width() / N;
@@ -59,9 +33,13 @@ void MainWindow::drawMaze(QGraphicsScene &scene, const Maze &maze) {
       qreal x1 = col * cell_width + line_width;
       qreal x2 = (col + 1) * cell_width + line_width;
 
-      // qDebug() << x1 << y1 << x2 << y2;
+      QGraphicsCellItem *cell = new QGraphicsCellItem(x1, y1, x2, y2);
+      cell->setBorderDown(grid[row][col].down_wall);
+      cell->setBorderLeft(grid[row][col].left_wall);
+      cell->setBorderRight(grid[row][col].right_wall);
+      cell->setBorderUp(grid[row][col].up_wall);
 
-      drawCell(scene, grid[row][col], x1, y1, x2, y2);
+      scene.addItem(cell);
     }
   }
 }
@@ -69,12 +47,26 @@ void MainWindow::drawMaze(QGraphicsScene &scene, const Maze &maze) {
 void MainWindow::draw() {
   size_t rows = ui_->spin_rows->value();
   size_t cols = ui_->spin_cols->value();
-  Maze test = controller_.generateMaze(rows, cols);
+  Maze maze = controller_.generateMaze(rows, cols);
 
   QGraphicsScene *scene = new QGraphicsScene;
   scene->setSceneRect(0, 0, 500, 500);
 
-  drawMaze(*scene, test);
+  auto grid = maze.getGrid();
+  std::vector<std::vector<MazeCell>> view_grid(
+      maze.getM(), std::vector<MazeCell>(maze.getN(), {0, 0, 0, 0}));
+
+  for (size_t i = 0; i < maze.getM(); i++) {
+    for (size_t j = 0; j < maze.getN(); j++) {
+      bool down = grid[i][j].down_wall;
+      bool up = grid[i][j].up_wall;
+      bool left = grid[i][j].left_wall;
+      bool right = grid[i][j].right_wall;
+      view_grid[i][j] = {up, down, right, left};
+    }
+  }
+
+  drawMaze(*scene, view_grid);
 
   ui_->view_screen->setScene(scene);
 }
