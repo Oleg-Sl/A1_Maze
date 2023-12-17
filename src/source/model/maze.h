@@ -12,6 +12,9 @@ namespace s21 {
 
 class Maze {
  public:
+  using size_type = size_t;
+
+ public:
   enum class WallPosition { kUp, kDown, kLeft, kRight };
 
  public:
@@ -20,18 +23,21 @@ class Maze {
        std::vector<std::vector<int>> down_walls);
   Maze();
 
+  Cell operator()(size_t row, size_t col) const;
+  Cell &operator()(size_t row, size_t col);
+
   std::vector<std::vector<int>> getWallMatrix(WallPosition position);
   std::vector<std::vector<Cell>> getGrid() const;
-  size_t getM() const;
-  size_t getN() const;
+  size_type getM() const;
+  size_type getN() const;
 
   void setGrid(const std::vector<std::vector<Cell>> &grid);
 
   void print();
 
  private:
-  size_t M_{0};
-  size_t N_{0};
+  size_type M_{0};
+  size_type N_{0};
   std::vector<std::vector<Cell>> grid_{};
 };
 

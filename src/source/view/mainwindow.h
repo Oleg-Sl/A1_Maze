@@ -25,9 +25,11 @@ class MainWindow : public QMainWindow {
   void drawMaze(QGraphicsScene &scene,
                 const std::vector<std::vector<MazeCell>> &grid);
   void draw();
+  void drawSolution();
 
  private:
   s21::Adapter adapter_;
+  std::vector<std::vector<MazeCell>> maze_;
   Ui::MainWindow *ui_;
 };
 

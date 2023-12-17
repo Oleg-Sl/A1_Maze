@@ -16,7 +16,7 @@ void MazeGenerator::unionSets(std::vector<size_t>& sets, size_t set1,
   }
 }
 
-Maze MazeGenerator::generateMaze(size_t rows, size_t cols) {
+Maze MazeGenerator::generateMaze(Maze::size_type rows, Maze::size_type cols) {
   std::vector<std::vector<Cell>> maze(rows, std::vector<Cell>(cols, {0, 0}));
 
   std::vector<std::vector<size_t>> sets(rows, std::vector<size_t>(cols, 0));
@@ -25,11 +25,12 @@ Maze MazeGenerator::generateMaze(size_t rows, size_t cols) {
 
   for (size_t row = 0; row < rows; row++) {
     for (size_t col = 0; col < cols; col++) {
-      bool generate_wall = rand() % 2 == 1;
       bool sets_equal = sets[row][col] == sets[row][col + 1];
 
-      if (generate_wall || sets_equal) {
+      if (dist_(gen_) || sets_equal) {
         maze[row][col].right_wall = 1;
+
+        if (col != cols - 1) maze[row][col + 1].left_wall = 1;
       } else {
         unionSets(sets[row], sets[row][col], sets[row][col + 1]);
       }
@@ -41,8 +42,9 @@ Maze MazeGenerator::generateMaze(size_t rows, size_t cols) {
         }
       }
 
-      if (rand() % 2 == 1 && counter > 1) {
+      if (dist_(gen_) == 1 && counter > 1) {
         maze[row][col].down_wall = 1;
+        if (row != rows - 1) maze[row + 1][col].up_wall = 1;
       }
 
       if (col == 0) maze[row][col].left_wall = 1;
@@ -65,6 +67,7 @@ Maze MazeGenerator::generateMaze(size_t rows, size_t cols) {
       if (row == rows - 1) {
         if (sets[row][col] != sets[row][col + 1]) {
           maze[row][col].right_wall = 0;
+          if (col != cols - 1) maze[row][col + 1].left_wall = 0;
         }
         unionSets(sets[row], sets[row][col], sets[row][col + 1]);
       }

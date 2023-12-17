@@ -49,13 +49,17 @@ std::vector<std::vector<int>> Maze::getWallMatrix(WallPosition position) {
   return result;
 }
 
+Cell Maze::operator()(size_t row, size_t col) const { return grid_[row][col]; }
+
+Cell &Maze::operator()(size_t row, size_t col) { return grid_[row][col]; }
+
 std::vector<std::vector<Cell>> Maze::getGrid() const { return grid_; }
 
 void Maze::setGrid(const std::vector<std::vector<Cell>> &grid) { grid_ = grid; }
 
-size_t Maze::getM() const { return M_; }
+Maze::size_type Maze::getM() const { return M_; }
 
-size_t Maze::getN() const { return N_; }
+Maze::size_type Maze::getN() const { return N_; }
 
 void Maze::print() {
   for (size_t i = 0; i < M_; i++) {
@@ -72,6 +76,15 @@ void Maze::print() {
       } else {
         std::cout << "  ";
       }
+    }
+    std::cout << std::endl;
+  }
+  std::cout << std::endl;
+
+  for (size_t i = 0; i < M_; i++) {
+    for (size_t j = 0; j < N_; j++) {
+      std::cout << "d" << grid_[i][j].down_wall << "r" << grid_[i][j].right_wall
+                << "u" << grid_[i][j].up_wall << "l" << grid_[i][j].left_wall << " ";
     }
     std::cout << std::endl;
   }
