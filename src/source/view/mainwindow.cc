@@ -17,7 +17,7 @@ MainWindow::MainWindow(Adapter adapter, QWidget *parent)
 }
 
 void MainWindow::drawMaze(QGraphicsScene &scene,
-                          const std::vector<std::vector<MazeCell>> &grid) {
+                          const std::vector<std::vector<Cell>> &grid) {
   QRectF scene_rect = scene.sceneRect();
   size_t M = grid.size();
   size_t N = M == 0 ? 0 : grid[0].size();
@@ -56,8 +56,7 @@ void MainWindow::drawSolution() {
   x2 = ui_->spin_end_x->value();
   y2 = ui_->spin_end_y->value();
 
-  std::vector<std::pair<int, int>> path =
-      adapter_.solutionMaze(maze_, x1, y1, x2, y2);
+  std::vector<Point2D> path = adapter_.solutionMaze(maze_, {x1, y1}, {x2, y2});
 
   QRectF scene_rect = scene->sceneRect();
   size_t M = maze_.size();
@@ -67,17 +66,18 @@ void MainWindow::drawSolution() {
   qreal cell_width = scene_rect.width() / N;
 
   for (size_t i = 0; i < path.size() - 1; i++) {
-    std::pair<int, int> point_start = path[i];
-    std::pair<int, int> point_end = path[i + 1];
+    Point2D start = path[i];
+    Point2D end = path[i + 1];
 
-    int y = (point_start.first * cell_height) + cell_height / 2;
-    int x = (point_start.second * cell_width) + cell_width / 2;
+    int x = (start.y * cell_height) + cell_height / 2;
+    int y = (start.x * cell_width) + cell_width / 2;
 
-    int y2 = (point_end.first * cell_height) + cell_height / 2;
-    int x2 = (point_end.second * cell_width) + cell_width / 2;
+    int x2 = (end.y * cell_height) + cell_height / 2;
+    int y2 = (end.x * cell_width) + cell_width / 2;
 
     QGraphicsLineItem *line = new QGraphicsLineItem(x, y, x2, y2);
-    QPen newPen(Qt::green);
+    QPen newPen(Qt::red);
+    newPen.setWidth(2);
 
     line->setPen(newPen);
 

@@ -7,7 +7,7 @@ namespace s21 {
 
 class BaseMazeGenerator {
  public:
-  virtual Maze generateMaze(size_t M, size_t N) = 0;
+  virtual Maze generateMaze(Maze::size_type rows, Maze::size_type cols) = 0;
 };
 
 }  // namespace s21

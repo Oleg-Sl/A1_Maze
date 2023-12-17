@@ -1,8 +1,8 @@
 #ifndef __MAZE_SOURCE_ADAPTER_ADAPTER_H__
 #define __MAZE_SOURCE_ADAPTER_ADAPTER_H__
 
+#include "cell.h"
 #include "maze.h"
-#include "mazecell.h"
 #include "mazegenerator.h"
 #include "mazesolution.h"
 
@@ -10,10 +10,9 @@ namespace s21 {
 
 class Adapter {
  public:
-  std::vector<std::vector<MazeCell>> generateMaze(const int M,
-                                                  const int N) const;
-  std::vector<std::pair<int, int>> solutionMaze(
-      std::vector<std::vector<MazeCell>> maze, int x1, int y1, int x2, int y2);
+  std::vector<std::vector<Cell>> generateMaze(const int M, const int N) const;
+  std::vector<Point2D> solutionMaze(std::vector<std::vector<Cell>> maze,
+                                    Point2D start, Point2D end) const;
 };
 }  // namespace s21
 

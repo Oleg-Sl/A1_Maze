@@ -2,22 +2,21 @@
 
 namespace s21 {
 
-std::vector<std::pair<int, int>> MazeSolution::findPath(Maze maze, int x1,
-                                                        int y1, int x2,
-                                                        int y2) {
+std::vector<Point2D> MazeSolution::findPath(const Maze& maze, Point2D start,
+                                            Point2D end) const {
   size_t M = maze.getM();
   size_t N = maze.getN();
 
   std::vector<std::vector<int>> grid_paths(M, std::vector<int>(N, -1));
   std::vector<std::vector<Cell>> grid_walls = maze.getGrid();
-  std::vector<std::pair<int, int>> path;
+  std::vector<Point2D> path;
 
-  grid_paths[y1][x1] = 0;
+  grid_paths[start.x][start.y] = 0;
 
   int move_counter = 0;
 
   bool stop = false;
-  while (!stop && grid_paths[y2][x2] == -1) {
+  while (!stop && grid_paths[end.x][end.y] == -1) {
     stop = true;
 
     for (size_t row = 0; row < M; ++row) {
@@ -45,10 +44,10 @@ std::vector<std::pair<int, int>> MazeSolution::findPath(Maze maze, int x1,
     move_counter++;
   }
 
-  int x = x2;
-  int y = y2;
+  int x = end.x;
+  int y = end.y;
 
-  move_counter = grid_paths[x2][y2];
+  move_counter = grid_paths[end.x][end.y];
   while (move_counter > 0) {
     path.push_back({y, x});
     move_counter--;

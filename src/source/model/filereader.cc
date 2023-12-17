@@ -1,12 +1,15 @@
+#include <cstddef>
+#include <fstream>
 #include <stdexcept>
+#include <vector>
 
 #include "filereader.h"
 
 namespace s21 {
 
-Maze FileReader::loadMaze(const std::string filename) {
+Maze FileReader::loadMaze(const std::string& filename) {
   std::ifstream filestream(filename);
-  size_t M, N;
+  Maze::size_type M, N;
 
   if (!filestream.is_open()) {
     throw std::invalid_argument("Incorrect filename");

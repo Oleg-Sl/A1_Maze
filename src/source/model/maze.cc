@@ -1,14 +1,16 @@
+#include <iostream>
+
 #include "maze.h"
 
 namespace s21 {
 
 Maze::Maze() {}
 
-Maze::Maze(std::vector<std::vector<Cell>> grid)
+Maze::Maze(const std::vector<std::vector<Cell>> &grid)
     : M_(grid.size()), N_(grid[0].size()), grid_(grid) {}
 
-Maze::Maze(std::vector<std::vector<int>> right_walls,
-           std::vector<std::vector<int>> down_walls) {
+Maze::Maze(const std::vector<std::vector<int>> &right_walls,
+           const std::vector<std::vector<int>> &down_walls) {
   size_t M = right_walls.size();
   size_t N = M == 0 ? 0 : right_walls[0].size();
 
@@ -29,7 +31,7 @@ Maze::Maze(std::vector<std::vector<int>> right_walls,
   }
 }
 
-std::vector<std::vector<int>> Maze::getWallMatrix(WallPosition position) {
+std::vector<std::vector<int>> Maze::getWallMatrix(WallPosition position) const {
   std::vector<std::vector<int>> result(M_, std::vector<int>(N_, 0));
 
   for (size_t row = 0; row < M_; row++) {
@@ -61,7 +63,7 @@ Maze::size_type Maze::getM() const { return M_; }
 
 Maze::size_type Maze::getN() const { return N_; }
 
-void Maze::print() {
+void Maze::print() const {
   for (size_t i = 0; i < M_; i++) {
     for (size_t j = 0; j < N_; j++) {
       bool right = grid_[i][j].right_wall;
@@ -80,14 +82,6 @@ void Maze::print() {
     std::cout << std::endl;
   }
   std::cout << std::endl;
-
-  for (size_t i = 0; i < M_; i++) {
-    for (size_t j = 0; j < N_; j++) {
-      std::cout << "d" << grid_[i][j].down_wall << "r" << grid_[i][j].right_wall
-                << "u" << grid_[i][j].up_wall << "l" << grid_[i][j].left_wall << " ";
-    }
-    std::cout << std::endl;
-  }
 }
 
 }  // namespace s21

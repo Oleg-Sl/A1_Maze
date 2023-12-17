@@ -2,7 +2,6 @@
 #define __MAZE_SOURCE_MODEL_MAZE_H__
 
 #include <cstddef>
-#include <iostream>
 #include <random>
 #include <vector>
 
@@ -14,26 +13,25 @@ class Maze {
  public:
   using size_type = size_t;
 
- public:
   enum class WallPosition { kUp, kDown, kLeft, kRight };
 
- public:
-  Maze(std::vector<std::vector<Cell>> grid);
-  Maze(std::vector<std::vector<int>> right_walls,
-       std::vector<std::vector<int>> down_walls);
   Maze();
+  Maze(size_type rows, size_type cols);
+  Maze(const std::vector<std::vector<Cell>> &grid);
+  Maze(const std::vector<std::vector<int>> &right_walls,
+       const std::vector<std::vector<int>> &down_walls);
 
   Cell operator()(size_t row, size_t col) const;
   Cell &operator()(size_t row, size_t col);
 
-  std::vector<std::vector<int>> getWallMatrix(WallPosition position);
+  std::vector<std::vector<int>> getWallMatrix(WallPosition position) const;
   std::vector<std::vector<Cell>> getGrid() const;
   size_type getM() const;
   size_type getN() const;
 
   void setGrid(const std::vector<std::vector<Cell>> &grid);
 
-  void print();
+  void print() const;
 
  private:
   size_type M_{0};

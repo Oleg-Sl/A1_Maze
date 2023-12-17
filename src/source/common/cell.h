@@ -1,5 +1,5 @@
-#ifndef __MAZE_SOURCE_MODEL_CELL_H__
-#define __MAZE_SOURCE_MODEL_CELL_H__
+#ifndef __MAZE_SOURCE_COMMON_CELL_H__
+#define __MAZE_SOURCE_COMMON_CELL_H__
 
 namespace s21 {
 
@@ -17,4 +17,4 @@ struct Cell {
 
 }  // namespace s21
 
-#endif  // __MAZE_SOURCE_MODEL_CELL_H__
+#endif  // __MAZE_SOURCE_COMMON_CELL_H__

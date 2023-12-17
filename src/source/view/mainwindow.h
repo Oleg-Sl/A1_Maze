@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "adapter.h"
-#include "mazecell.h"
+#include "cell.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,13 +23,13 @@ class MainWindow : public QMainWindow {
   MainWindow(Adapter adapter, QWidget *parent = nullptr);
   ~MainWindow();
   void drawMaze(QGraphicsScene &scene,
-                const std::vector<std::vector<MazeCell>> &grid);
+                const std::vector<std::vector<Cell>> &grid);
   void draw();
   void drawSolution();
 
  private:
   s21::Adapter adapter_;
-  std::vector<std::vector<MazeCell>> maze_;
+  std::vector<std::vector<Cell>> maze_;
   Ui::MainWindow *ui_;
 };
 
