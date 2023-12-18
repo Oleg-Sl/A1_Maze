@@ -34,8 +34,8 @@ class Maze {
   void print() const;
 
  private:
-  size_type M_{0};
-  size_type N_{0};
+  size_type rows_{0};
+  size_type cols_{0};
   std::vector<std::vector<Cell>> grid_{};
 };
 

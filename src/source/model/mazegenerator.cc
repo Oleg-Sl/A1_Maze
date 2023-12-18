@@ -55,46 +55,37 @@ void MazeGenerator::buildWalls(Maze& maze,
   }
 }
 
-void MazeGenerator::genFirstRow(Maze& maze,
-                                std::vector<std::vector<size_t>>& sets) {
-  size_t cols = maze.getN();
-
-  for (int col = 0; col < cols; col++) {
+void MazeGenerator::initializeFirstRow(Maze& maze,
+                                       std::vector<std::vector<size_t>>& sets) {
+  for (int col = 0; col < maze.getN(); col++) {
     sets[0][col] = col;
-  }
-
-  for (int col = 0; col < cols; col++) {
-    buildWalls(maze, sets, 0, col);
   }
 }
 
-void MazeGenerator::genMiddleRows(Maze& maze,
-                                  std::vector<std::vector<size_t>>& sets) {
+void MazeGenerator::genRows(Maze& maze,
+                            std::vector<std::vector<size_t>>& sets) {
   Maze::size_type rows = maze.getM();
   Maze::size_type cols = maze.getN();
 
-  for (size_t row = 1; row < rows; row++) {
+  for (size_t row = 0; row < rows; row++) {
     for (size_t col = 0; col < cols; col++) {
       buildWalls(maze, sets, row, col);
-
-      if (col == 0) maze(row, col).left_wall = 1;
-      if (col == cols - 1) maze(row, col).right_wall = 1;
     }
   }
 }
 
 void MazeGenerator::genLastRow(Maze& maze,
                                std::vector<std::vector<size_t>>& sets) {
-  size_t rows = maze.getM() - 1;
+  size_t last_row = maze.getM() - 1;
 
   for (size_t col = 0; col < maze.getN() - 1; col++) {
-    maze(rows, col).down_wall = 1;
-    if (sets[rows][col] != sets[rows][col + 1]) {
-      maze(rows, col).right_wall = 0;
-      if (col < maze.getN() - 1) maze(rows, col + 1).left_wall = 0;
+    maze(last_row, col).down_wall = 1;
+    if (sets[last_row][col] != sets[last_row][col + 1]) {
+      maze(last_row, col).right_wall = 0;
+      if (col < maze.getN() - 1) maze(last_row, col + 1).left_wall = 0;
     }
 
-    unionSets(sets[rows], sets[rows][col], sets[rows][col + 1]);
+    unionSets(sets[last_row], sets[last_row][col], sets[last_row][col + 1]);
   }
 }
 
@@ -106,8 +97,8 @@ Maze MazeGenerator::generateMaze(Maze::size_type rows, Maze::size_type cols) {
   Maze maze(rows, cols);
   std::vector<std::vector<size_t>> sets(rows, std::vector<size_t>(cols, 0));
 
-  genFirstRow(maze, sets);
-  genMiddleRows(maze, sets);
+  initializeFirstRow(maze, sets);
+  genRows(maze, sets);
   genLastRow(maze, sets);
 
   return maze;
