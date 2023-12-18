@@ -57,7 +57,7 @@ void MazeGenerator::buildWalls(Maze& maze,
 
 void MazeGenerator::initializeFirstRow(Maze& maze,
                                        std::vector<std::vector<size_t>>& sets) {
-  for (int col = 0; col < maze.getCols(); col++) {
+  for (size_t col = 0; col < maze.getCols(); col++) {
     sets[0][col] = col;
   }
 }

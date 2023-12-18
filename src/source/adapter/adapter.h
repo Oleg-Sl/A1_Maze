@@ -2,6 +2,7 @@
 #define __MAZE_SOURCE_ADAPTER_ADAPTER_H__
 
 #include <string>
+#include <vector>
 
 #include "cell.h"
 #include "point2d.h"

@@ -68,13 +68,13 @@ std::vector<std::vector<int>> MazeSolver::generateWave(const Maze& maze,
 
 std::vector<Point2D> MazeSolver::reconstructPath(
     const Maze& maze, const std::vector<std::vector<int>>& grid_paths,
-    Point2D start, Point2D end) const {
+    Point2D start) const {
   std::vector<Point2D> path;
 
-  int x = end.x;
-  int y = end.y;
+  int x = start.x;
+  int y = start.y;
 
-  int move_counter = grid_paths[end.y][end.x];
+  int move_counter = grid_paths[start.y][start.x];
   while (move_counter >= 0) {
     path.push_back({x, y});
     move_counter--;
@@ -94,7 +94,7 @@ std::vector<Point2D> MazeSolver::reconstructPath(
 std::vector<Point2D> MazeSolver::findPath(const Maze& maze, Point2D start,
                                           Point2D end) const {
   std::vector<std::vector<int>> grid_paths = generateWave(maze, start, end);
-  return reconstructPath(maze, grid_paths, start, end);
+  return reconstructPath(maze, grid_paths, end);
 }
 
 }  // namespace s21

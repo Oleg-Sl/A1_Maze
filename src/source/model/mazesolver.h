@@ -18,7 +18,7 @@ class MazeSolver {
                                              Point2D end) const;
   std::vector<Point2D> reconstructPath(
       const Maze& maze, const std::vector<std::vector<int>>& grid_paths,
-      Point2D start, Point2D end) const;
+      Point2D start) const;
 };
 }  // namespace s21
 
