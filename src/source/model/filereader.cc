@@ -30,6 +30,7 @@ std::vector<std::vector<Cell>> FileReader::loadMaze(
       int curr_value;
       filestream >> curr_value;
       maze[i][j].right_wall = curr_value;
+      if (j < cols - 1) maze[i][j + 1].left_wall = curr_value;
     }
   }
 
@@ -38,6 +39,7 @@ std::vector<std::vector<Cell>> FileReader::loadMaze(
       int curr_value;
       filestream >> curr_value;
       maze[i][j].down_wall = curr_value;
+      if (i < cols - 1) maze[i + 1][j].up_wall = curr_value;
     }
   }
 

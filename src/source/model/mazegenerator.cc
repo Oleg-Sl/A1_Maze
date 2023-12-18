@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iostream>
 #include <numeric>
 #include <vector>
 
@@ -25,12 +26,12 @@ void MazeGenerator::buildWalls(Maze& maze,
   if (col == 0) maze(row, col).left_wall = 1;
   if (col == cols - 1) maze(row, col).right_wall = 1;
 
-  if (col != cols - 1) {
+  if (col < cols - 1) {
     bool sets_equal = sets[row][col] == sets[row][col + 1];
 
     if (dist_(gen_) == 1 || sets_equal) {
       maze(row, col).right_wall = 1;
-      if (col < cols - 1) maze(row, col + 1).left_wall = 1;
+      maze(row, col + 1).left_wall = 1;
     } else {
       unionSets(sets[row], sets[row][col], sets[row][col + 1]);
     }
@@ -47,11 +48,7 @@ void MazeGenerator::buildWalls(Maze& maze,
     maze(row, col).down_wall = 1;
     if (row < rows - 1) {
       maze(row + 1, col).up_wall = 1;
-      sets[row + 1][col] = (row + 1) * cols + col;  // form next string
     }
-  } else {
-    if (row < rows - 1)
-      sets[row + 1][col] = sets[row][col];  // form next string
   }
 }
 
@@ -71,6 +68,16 @@ void MazeGenerator::genRows(Maze& maze,
     for (size_t col = 0; col < cols; col++) {
       buildWalls(maze, sets, row, col);
     }
+
+    if (row < rows - 1) {
+      for (size_t col = 0; col < cols; col++) {
+        if (maze(row, col).down_wall) {
+          sets[row + 1][col] = (row + 1) * cols + col; 
+        } else {
+          sets[row + 1][col] = sets[row][col];  
+        }
+      }
+    }
   }
 }
 
@@ -82,7 +89,7 @@ void MazeGenerator::genLastRow(Maze& maze,
     maze(last_row, col).down_wall = 1;
     if (sets[last_row][col] != sets[last_row][col + 1]) {
       maze(last_row, col).right_wall = 0;
-      if (col < maze.getCols() - 1) maze(last_row, col + 1).left_wall = 0;
+      maze(last_row, col + 1).left_wall = 0;
     }
 
     unionSets(sets[last_row], sets[last_row][col], sets[last_row][col + 1]);
