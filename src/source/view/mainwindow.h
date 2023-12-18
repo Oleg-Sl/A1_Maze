@@ -26,6 +26,9 @@ class MainWindow : public QMainWindow {
                 const std::vector<std::vector<Cell>> &grid);
   void draw();
   void drawSolution();
+  void importMazeFile();
+  void exportMazeFile();
+  void generateMaze();
 
  private:
   s21::Adapter adapter_;

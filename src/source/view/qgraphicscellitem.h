@@ -1,7 +1,6 @@
 #ifndef __MAZE_SOURCE_VIEW_QGRAPHICSCELLITEM_H__
 #define __MAZE_SOURCE_VIEW_QGRAPHICSCELLITEM_H__
 
-#include <QBrush>
 #include <QGraphicsItem>
 #include <QPainter>
 
@@ -22,7 +21,7 @@ class QGraphicsCellItem : public QGraphicsItem {
   void setBorderLeft(bool show);
   void setBorderRight(bool show);
   void setFilled(bool filled);
-  void setBorderSize(int size);
+  void setBorderWidth(int width);
 
  private:
   qreal x1_{};
@@ -30,7 +29,7 @@ class QGraphicsCellItem : public QGraphicsItem {
   qreal x2_{};
   qreal y2_{};
   bool filled_{};
-  int border_size_{};
+  int border_width_{};
   bool up_border_{};
   bool down_border_{};
   bool left_border_{};

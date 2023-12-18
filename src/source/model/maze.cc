@@ -18,25 +18,6 @@ Maze::Maze(const std::vector<std::vector<Cell>> &grid)
       cols_(grid.size() == 0 ? 0 : grid[0].size()),
       grid_(grid) {}
 
-Maze::Maze(const std::vector<std::vector<int>> &right_walls,
-           const std::vector<std::vector<int>> &down_walls) {
-  size_t rows_ = right_walls.size();
-  size_t cols_ = rows_ == 0 ? 0 : right_walls[0].size();
-
-  if (rows_ != down_walls.size() || cols_ != down_walls[0].size()) {
-    return;
-  }
-
-  grid_.resize(rows_, std::vector<Cell>(cols_, {0, 0, 0, 0}));
-
-  for (size_t i = 0; i < rows_; i++) {
-    for (size_t j = 0; j < cols_; j++) {
-      grid_[i][j] = {static_cast<bool>(right_walls[i][j]),
-                     static_cast<bool>(down_walls[i][j])};
-    }
-  }
-}
-
 std::vector<std::vector<int>> Maze::getWallMatrix(WallPosition position) const {
   std::vector<std::vector<int>> result(rows_, std::vector<int>(cols_, 0));
 
@@ -65,9 +46,9 @@ std::vector<std::vector<Cell>> Maze::getGrid() const { return grid_; }
 
 void Maze::setGrid(const std::vector<std::vector<Cell>> &grid) { grid_ = grid; }
 
-Maze::size_type Maze::getM() const { return rows_; }
+Maze::size_type Maze::getRows() const { return rows_; }
 
-Maze::size_type Maze::getN() const { return cols_; }
+Maze::size_type Maze::getCols() const { return cols_; }
 
 void Maze::print() const {
   for (size_t i = 0; i < rows_; i++) {

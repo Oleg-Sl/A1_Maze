@@ -1,13 +1,13 @@
 #ifndef __MAZE_SOURCE_MODEL_FILEREADER_H__
 #define __MAZE_SOURCE_MODEL_FILEREADER_H__
 
-#include "maze.h"
+#include "cell.h"
 
 namespace s21 {
 
 class FileReader {
  public:
-  Maze loadMaze(const std::string& filename);
+  std::vector<std::vector<Cell>> loadMaze(const std::string& filename) const;
 };
 
 }  // namespace s21

@@ -18,16 +18,14 @@ class Maze {
   Maze();
   Maze(size_type rows, size_type cols);
   Maze(const std::vector<std::vector<Cell>> &grid);
-  Maze(const std::vector<std::vector<int>> &right_walls,
-       const std::vector<std::vector<int>> &down_walls);
 
   Cell operator()(size_t row, size_t col) const;
   Cell &operator()(size_t row, size_t col);
 
   std::vector<std::vector<int>> getWallMatrix(WallPosition position) const;
   std::vector<std::vector<Cell>> getGrid() const;
-  size_type getM() const;
-  size_type getN() const;
+  size_type getRows() const;
+  size_type getCols() const;
 
   void setGrid(const std::vector<std::vector<Cell>> &grid);
 

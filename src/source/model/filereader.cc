@@ -4,39 +4,44 @@
 #include <vector>
 
 #include "filereader.h"
+#include "maze.h"
 
 namespace s21 {
 
-Maze FileReader::loadMaze(const std::string& filename) {
+std::vector<std::vector<Cell>> FileReader::loadMaze(
+    const std::string& filename) const {
   std::ifstream filestream(filename);
-  Maze::size_type M, N;
+  Maze::size_type rows, cols;
 
   if (!filestream.is_open()) {
-    throw std::invalid_argument("Incorrect filename");
+    throw std::invalid_argument("File opening error");
   }
 
-  filestream >> M >> N;
+  filestream >> rows >> cols;
 
-  std::vector<std::vector<int>> right_walls(M, std::vector<int>());
-  std::vector<std::vector<int>> down_walls(M, std::vector<int>());
+  std::vector<std::vector<Cell>> maze(rows,
+                                      std::vector<Cell>(cols, {0, 0, 0, 0}));
 
-  for (size_t i = 0; i < M; i++) {
-    for (size_t j = 0; j < N; j++) {
+  for (size_t i = 0; i < rows; i++) {
+    for (size_t j = 0; j < cols; j++) {
+      if (i == 0) maze[i][j].up_wall = 1;
+      if (j == 0) maze[i][j].left_wall = 1;
+
       int curr_value;
       filestream >> curr_value;
-      right_walls[i].push_back(curr_value);
+      maze[i][j].right_wall = curr_value;
     }
   }
 
-  for (size_t i = 0; i < M; i++) {
-    for (size_t j = 0; j < N; j++) {
+  for (size_t i = 0; i < rows; i++) {
+    for (size_t j = 0; j < cols; j++) {
       int curr_value;
       filestream >> curr_value;
-      down_walls[i].push_back(curr_value);
+      maze[i][j].down_wall = curr_value;
     }
   }
 
-  return Maze(right_walls, down_walls);
+  return maze;
 }
 
 }  // namespace s21

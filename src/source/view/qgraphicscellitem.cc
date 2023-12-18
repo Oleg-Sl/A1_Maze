@@ -1,3 +1,5 @@
+#include <QBrush>
+
 #include "qgraphicscellitem.h"
 
 namespace s21 {
@@ -19,7 +21,7 @@ void QGraphicsCellItem::paint(QPainter* painter,
   Q_UNUSED(widget);
 
   QPen pen;
-  pen.setWidth(border_size_);
+  pen.setWidth(border_width_);
   painter->setPen(pen);
 
   if (filled_) {
@@ -46,6 +48,6 @@ void QGraphicsCellItem::setBorderLeft(bool show) { left_border_ = show; }
 void QGraphicsCellItem::setBorderRight(bool show) { right_border_ = show; }
 
 void QGraphicsCellItem::setFilled(bool filled) { filled_ = filled; }
-void QGraphicsCellItem::setBorderSize(int size) { border_size_ = size; }
+void QGraphicsCellItem::setBorderWidth(int width) { border_width_ = width; }
 
 }  // namespace s21
