@@ -17,8 +17,8 @@ void MazeGenerator::unionSets(std::vector<size_t>& sets, size_t set1,
 void MazeGenerator::buildWalls(Maze& maze,
                                std::vector<std::vector<size_t>>& sets,
                                size_t row, size_t col) {
-  size_t rows = maze.getM();
-  size_t cols = maze.getN();
+  size_t rows = maze.getRows();
+  size_t cols = maze.getCols();
 
   if (row == 0) maze(row, col).up_wall = 1;
   if (row == rows - 1) maze(row, col).down_wall = 1;
@@ -57,15 +57,15 @@ void MazeGenerator::buildWalls(Maze& maze,
 
 void MazeGenerator::initializeFirstRow(Maze& maze,
                                        std::vector<std::vector<size_t>>& sets) {
-  for (int col = 0; col < maze.getN(); col++) {
+  for (int col = 0; col < maze.getCols(); col++) {
     sets[0][col] = col;
   }
 }
 
 void MazeGenerator::genRows(Maze& maze,
                             std::vector<std::vector<size_t>>& sets) {
-  Maze::size_type rows = maze.getM();
-  Maze::size_type cols = maze.getN();
+  Maze::size_type rows = maze.getRows();
+  Maze::size_type cols = maze.getCols();
 
   for (size_t row = 0; row < rows; row++) {
     for (size_t col = 0; col < cols; col++) {
@@ -76,13 +76,13 @@ void MazeGenerator::genRows(Maze& maze,
 
 void MazeGenerator::genLastRow(Maze& maze,
                                std::vector<std::vector<size_t>>& sets) {
-  size_t last_row = maze.getM() - 1;
+  size_t last_row = maze.getRows() - 1;
 
-  for (size_t col = 0; col < maze.getN() - 1; col++) {
+  for (size_t col = 0; col < maze.getCols() - 1; col++) {
     maze(last_row, col).down_wall = 1;
     if (sets[last_row][col] != sets[last_row][col + 1]) {
       maze(last_row, col).right_wall = 0;
-      if (col < maze.getN() - 1) maze(last_row, col + 1).left_wall = 0;
+      if (col < maze.getCols() - 1) maze(last_row, col + 1).left_wall = 0;
     }
 
     unionSets(sets[last_row], sets[last_row][col], sets[last_row][col + 1]);

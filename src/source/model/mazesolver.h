@@ -1,5 +1,5 @@
-#ifndef __MAZE_SOURCE_MODEL_MAZESOLUTION_H__
-#define __MAZE_SOURCE_MODEL_MAZESOLUTION_H__
+#ifndef __MAZE_SOURCE_MODEL_MAZESOLVER_H__
+#define __MAZE_SOURCE_MODEL_MAZESOLVER_H__
 
 #include <vector>
 
@@ -7,7 +7,7 @@
 #include "point2d.h"
 
 namespace s21 {
-class MazeSolution {
+class MazeSolver {
  public:
   std::vector<Point2D> findPath(const Maze& maze, Point2D start,
                                 Point2D end) const;
@@ -22,4 +22,4 @@ class MazeSolution {
 };
 }  // namespace s21
 
-#endif  // __MAZE_SOURCE_MODEL_MAZESOLUTION_H__
+#endif  // __MAZE_SOURCE_MODEL_MAZESOLVER_H__

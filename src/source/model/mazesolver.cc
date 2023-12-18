@@ -1,11 +1,11 @@
 #include <iostream>
 
-#include "mazesolution.h"
+#include "mazesolver.h"
 
 namespace s21 {
 
-std::vector<Point2D> MazeSolution::getMoves(const Cell& cell,
-                                            const Point2D& coords) const {
+std::vector<Point2D> MazeSolver::getMoves(const Cell& cell,
+                                          const Point2D& coords) const {
   std::vector<Point2D> moves;
   int x = coords.x;
   int y = coords.y;
@@ -26,11 +26,11 @@ std::vector<Point2D> MazeSolution::getMoves(const Cell& cell,
   return moves;
 }
 
-std::vector<std::vector<int>> MazeSolution::generateWave(const Maze& maze,
-                                                         Point2D start,
-                                                         Point2D end) const {
-  size_t rows = maze.getM();
-  size_t cols = maze.getN();
+std::vector<std::vector<int>> MazeSolver::generateWave(const Maze& maze,
+                                                       Point2D start,
+                                                       Point2D end) const {
+  size_t rows = maze.getRows();
+  size_t cols = maze.getCols();
 
   std::vector<std::vector<int>> grid_paths(rows, std::vector<int>(cols, -1));
 
@@ -66,7 +66,7 @@ std::vector<std::vector<int>> MazeSolution::generateWave(const Maze& maze,
   return grid_paths;
 }
 
-std::vector<Point2D> MazeSolution::reconstructPath(
+std::vector<Point2D> MazeSolver::reconstructPath(
     const Maze& maze, const std::vector<std::vector<int>>& grid_paths,
     Point2D start, Point2D end) const {
   std::vector<Point2D> path;
@@ -91,8 +91,8 @@ std::vector<Point2D> MazeSolution::reconstructPath(
   return path;
 }
 
-std::vector<Point2D> MazeSolution::findPath(const Maze& maze, Point2D start,
-                                            Point2D end) const {
+std::vector<Point2D> MazeSolver::findPath(const Maze& maze, Point2D start,
+                                          Point2D end) const {
   std::vector<std::vector<int>> grid_paths = generateWave(maze, start, end);
   return reconstructPath(maze, grid_paths, start, end);
 }
