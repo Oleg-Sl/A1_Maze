@@ -7,8 +7,6 @@
 
 namespace s21 {
 
-// TODO: Разбить на функции, упростить
-
 void MazeGenerator::unionSets(std::vector<size_t>& sets, size_t set1,
                               size_t set2) {
   for (size_t i = 0; i < sets.size(); i++) {
@@ -16,65 +14,103 @@ void MazeGenerator::unionSets(std::vector<size_t>& sets, size_t set1,
   }
 }
 
-Maze MazeGenerator::generateMaze(Maze::size_type rows, Maze::size_type cols) {
-  std::vector<std::vector<Cell>> maze(rows, std::vector<Cell>(cols, {0, 0}));
+void MazeGenerator::buildWalls(Maze& maze,
+                               std::vector<std::vector<size_t>>& sets,
+                               size_t row, size_t col) {
+  size_t rows = maze.getM();
+  size_t cols = maze.getN();
 
-  std::vector<std::vector<size_t>> sets(rows, std::vector<size_t>(cols, 0));
+  if (row == 0) maze(row, col).up_wall = 1;
+  if (row == rows - 1) maze(row, col).down_wall = 1;
+  if (col == 0) maze(row, col).left_wall = 1;
+  if (col == cols - 1) maze(row, col).right_wall = 1;
 
-  std::iota(sets[0].begin(), sets[0].end(), 0);
+  if (col != cols - 1) {
+    bool sets_equal = sets[row][col] == sets[row][col + 1];
 
-  for (size_t row = 0; row < rows; row++) {
-    for (size_t col = 0; col < cols; col++) {
-      bool sets_equal = sets[row][col] == sets[row][col + 1];
-
-      if (dist_(gen_) || sets_equal) {
-        maze[row][col].right_wall = 1;
-
-        if (col != cols - 1) maze[row][col + 1].left_wall = 1;
-      } else {
-        unionSets(sets[row], sets[row][col], sets[row][col + 1]);
-      }
-
-      int counter = 0;
-      for (size_t k = 0; k < cols; k++) {
-        if (sets[row][k] == sets[row][col] && maze[row][k].down_wall == 0) {
-          counter++;
-        }
-      }
-
-      if (dist_(gen_) == 1 && counter > 1) {
-        maze[row][col].down_wall = 1;
-        if (row != rows - 1) maze[row + 1][col].up_wall = 1;
-      }
-
-      if (col == 0) maze[row][col].left_wall = 1;
-      if (col == rows - 1) maze[row][col].right_wall = 1;
-      if (row == 0) maze[row][col].up_wall = 1;
-      if (row == rows - 1) maze[row][col].down_wall = 1;
-    }
-
-    for (size_t col = 0; col < cols; col++) {
-      if (row < rows - 1) {
-        if (maze[row][col].down_wall == 1) {
-          sets[row + 1][col] = (row + 1) * rows + col;
-        } else {
-          sets[row + 1][col] = sets[row][col];
-        }
-      }
-    }
-
-    for (size_t col = 0; col < cols - 1; col++) {
-      if (row == rows - 1) {
-        if (sets[row][col] != sets[row][col + 1]) {
-          maze[row][col].right_wall = 0;
-          if (col != cols - 1) maze[row][col + 1].left_wall = 0;
-        }
-        unionSets(sets[row], sets[row][col], sets[row][col + 1]);
-      }
+    if (dist_(gen_) == 1 || sets_equal) {
+      maze(row, col).right_wall = 1;
+      if (col < cols - 1) maze(row, col + 1).left_wall = 1;
+    } else {
+      unionSets(sets[row], sets[row][col], sets[row][col + 1]);
     }
   }
 
-  return Maze(maze);
+  int cells_without_down = 0;
+  for (size_t k = 0; k < cols; k++) {
+    if (sets[row][k] == sets[row][col] && maze(row, k).down_wall == 0) {
+      cells_without_down++;
+    }
+  }
+
+  if (dist_(gen_) == 1 && cells_without_down > 1) {
+    maze(row, col).down_wall = 1;
+    if (row < rows - 1) {
+      maze(row + 1, col).up_wall = 1;
+      sets[row + 1][col] = (row + 1) * cols + col;  // form next string
+    }
+  } else {
+    if (row < rows - 1)
+      sets[row + 1][col] = sets[row][col];  // form next string
+  }
+}
+
+void MazeGenerator::genFirstRow(Maze& maze,
+                                std::vector<std::vector<size_t>>& sets) {
+  size_t cols = maze.getN();
+
+  for (int col = 0; col < cols; col++) {
+    sets[0][col] = col;
+  }
+
+  for (int col = 0; col < cols; col++) {
+    buildWalls(maze, sets, 0, col);
+  }
+}
+
+void MazeGenerator::genMiddleRows(Maze& maze,
+                                  std::vector<std::vector<size_t>>& sets) {
+  Maze::size_type rows = maze.getM();
+  Maze::size_type cols = maze.getN();
+
+  for (size_t row = 1; row < rows; row++) {
+    for (size_t col = 0; col < cols; col++) {
+      buildWalls(maze, sets, row, col);
+
+      if (col == 0) maze(row, col).left_wall = 1;
+      if (col == cols - 1) maze(row, col).right_wall = 1;
+    }
+  }
+}
+
+void MazeGenerator::genLastRow(Maze& maze,
+                               std::vector<std::vector<size_t>>& sets) {
+  size_t rows = maze.getM() - 1;
+
+  for (size_t col = 0; col < maze.getN() - 1; col++) {
+    maze(rows, col).down_wall = 1;
+    if (sets[rows][col] != sets[rows][col + 1]) {
+      maze(rows, col).right_wall = 0;
+      if (col < maze.getN() - 1) maze(rows, col + 1).left_wall = 0;
+    }
+
+    unionSets(sets[rows], sets[rows][col], sets[rows][col + 1]);
+  }
+}
+
+Maze MazeGenerator::generateMaze(Maze::size_type rows, Maze::size_type cols) {
+  if (rows <= 1 || cols <= 1) {
+    return Maze();
+  }
+
+  Maze maze(rows, cols);
+  std::vector<std::vector<size_t>> sets(rows, std::vector<size_t>(cols, 0));
+
+  genFirstRow(maze, sets);
+  genMiddleRows(maze, sets);
+  genLastRow(maze, sets);
+
+  return maze;
 }
 
 }  // namespace s21

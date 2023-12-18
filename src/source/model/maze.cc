@@ -6,6 +6,13 @@ namespace s21 {
 
 Maze::Maze() {}
 
+Maze::Maze(size_type rows, size_type cols) {
+  grid_.resize(rows, std::vector<Cell>(cols, {0, 0, 0, 0}));
+
+  M_ = rows;
+  N_ = cols;
+}
+
 Maze::Maze(const std::vector<std::vector<Cell>> &grid)
     : M_(grid.size()), N_(grid[0].size()), grid_(grid) {}
 
