@@ -11,7 +11,7 @@ namespace s21 {
 std::vector<std::vector<Cell>> FileReader::loadMaze(
     const std::string& filename) const {
   std::ifstream filestream(filename);
-  Maze::size_type rows, cols;
+  size_t rows, cols;
 
   if (!filestream.is_open()) {
     throw std::invalid_argument("File opening error");

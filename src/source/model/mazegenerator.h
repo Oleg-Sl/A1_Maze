@@ -8,7 +8,7 @@ namespace s21 {
 
 class MazeGenerator : BaseMazeGenerator {
  public:
-  Maze generateMaze(Maze::size_type rows, Maze::size_type cols);
+  Maze generateMaze(size_t rows, size_t cols);
 
  private:
   void initializeFirstRow(Maze& maze, std::vector<std::vector<size_t>>& sets);

@@ -28,8 +28,10 @@ class QGraphicsCellItem : public QGraphicsItem {
   qreal y1_{};
   qreal x2_{};
   qreal y2_{};
+
   bool filled_{};
-  int border_width_{};
+  int border_width_{1};
+
   bool up_border_{};
   bool down_border_{};
   bool left_border_{};

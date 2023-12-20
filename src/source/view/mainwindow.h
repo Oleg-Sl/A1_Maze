@@ -20,6 +20,9 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
  public:
+  const int kCellBorderWidth = 2;
+  const int kSolutionLineWidth = 2;
+
   MainWindow(Adapter adapter, QWidget *parent = nullptr);
   ~MainWindow();
   void drawMaze(QGraphicsScene &scene,

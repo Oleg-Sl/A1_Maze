@@ -61,8 +61,8 @@ void MazeGenerator::initializeFirstRow(Maze& maze,
 
 void MazeGenerator::genRows(Maze& maze,
                             std::vector<std::vector<size_t>>& sets) {
-  Maze::size_type rows = maze.getRows();
-  Maze::size_type cols = maze.getCols();
+  size_t rows = maze.getRows();
+  size_t cols = maze.getCols();
 
   for (size_t row = 0; row < rows; row++) {
     for (size_t col = 0; col < cols; col++) {
@@ -96,7 +96,7 @@ void MazeGenerator::genLastRow(Maze& maze,
   }
 }
 
-Maze MazeGenerator::generateMaze(Maze::size_type rows, Maze::size_type cols) {
+Maze MazeGenerator::generateMaze(size_t rows, size_t cols) {
   if (rows <= 1 || cols <= 1) {
     return Maze();
   }
