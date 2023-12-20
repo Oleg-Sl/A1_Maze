@@ -46,27 +46,38 @@ void  Cave::setCell(size_t row, size_t col, bool value) {
     grid_[row][col] = value;
 }
 
-// bool Cave::operator()(size_t row, size_t col) const {
-//     return grid_[row][col];
-// }
-
-
-// bool &Cave::operator()(size_t row, size_t col) {
-//     return grid_[row][col];
-// }
-
-
 void Cave::print() const {
+    for (size_t i = 0; i < rows_ + 2; i++) {
+        if (i == 0) {
+            std::cout << "+-";
+        } else if (i == rows_ + 1) {
+            std::cout << "-+";
+        } else {
+            std::cout << "---";
+        }
+    }
+    std::cout << std::endl;
     for (size_t i = 0; i < rows_; i++) {
+        std::cout << "| ";
         for (size_t j = 0; j < cols_; j++) {
             if (grid_[i][j]) {
-                std::cout << (char)(178)<< static_cast<char>(219);
+                std::cout << " " << static_cast<char>(219) << " ";
             } else {
-                std::cout << "  ";
+                std::cout << " . ";
             }
         }
-        std::cout << std::endl;
+        std::cout << " |" << std::endl;
     }
+    for (size_t i = 0; i < rows_ + 2; i++) {
+        if (i == 0) {
+            std::cout << "+-";
+        } else if (i == rows_ + 1) {
+            std::cout << "-+";
+        } else {
+            std::cout << "---";
+        }
+    }
+    std::cout << std::endl;
 }
 
 
@@ -74,14 +85,12 @@ void Cave::print() const {
 
 
 int main(int argc, char const *argv[]) {
-    size_t rows = 5;
-    size_t cols = 5;
+    size_t rows = 25;
+    size_t cols = 25;
     // std::cout << rows << " " << cols << std::endl;
     s21::Cave cave(rows, cols);
     std::cout << "rows = " << rows << ", cols = " << cols << std::endl;
-    std::cout << "***************************************" << std::endl;
     cave.print();
-    std::cout << "***************************************" << std::endl;
 
     return 0;
 }

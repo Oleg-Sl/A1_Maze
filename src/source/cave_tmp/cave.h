@@ -20,9 +20,6 @@ public:
     bool getCell(size_t row, size_t col) const;
     void setCell(size_t row, size_t col, bool value);
 
-    // bool operator()(size_t row, size_t col) const;
-    // bool &operator()(size_t row, size_t col);
-
     void print() const;
 
 private:
