@@ -13,6 +13,11 @@ MainWindow::MainWindow(Adapter adapter, QWidget *parent)
     : QMainWindow(parent), adapter_(adapter), ui_(new Ui::MainWindow) {
   ui_->setupUi(this);
 
+  ui_->spin_cols->setMaximum(kMaxMazeCols);
+  ui_->spin_rows->setMaximum(kMaxMazeRows);
+  ui_->spin_end_x->setMaximum(kMaxMazeCols);
+  ui_->spin_end_y->setMaximum(kMaxMazeCols);
+
   connect(ui_->button_generate, &QPushButton::clicked, this,
           &MainWindow::generateMaze);
   connect(ui_->button_build_path, &QPushButton::clicked, this,
@@ -61,12 +66,10 @@ void MainWindow::drawMaze(QGraphicsScene &scene,
 void MainWindow::drawSolution() {
   QGraphicsScene *scene = ui_->view_screen->scene();
 
-  int x1, x2, y1, y2;
-
-  x1 = ui_->spin_start_x->value();
-  y1 = ui_->spin_start_y->value();
-  x2 = ui_->spin_end_x->value();
-  y2 = ui_->spin_end_y->value();
+  int x1 = ui_->spin_start_x->value() - 1;
+  int y1 = ui_->spin_start_y->value() - 1;
+  int x2 = ui_->spin_end_x->value() - 1;
+  int y2 = ui_->spin_end_y->value() - 1;
 
   std::vector<Point2D> path = adapter_.solutionMaze(maze_, {x1, y1}, {x2, y2});
 
@@ -106,10 +109,10 @@ void MainWindow::generateMaze() {
   size_t cols = ui_->spin_cols->value();
   maze_ = adapter_.generateMaze(rows, cols);
 
-  ui_->spin_end_x->setRange(0, cols - 1);
-  ui_->spin_end_y->setRange(0, rows - 1);
-  ui_->spin_end_x->setValue(cols - 1);
-  ui_->spin_end_y->setValue(rows - 1);
+  ui_->spin_end_x->setRange(1, cols);
+  ui_->spin_end_y->setRange(1, rows);
+  ui_->spin_end_x->setValue(cols);
+  ui_->spin_end_y->setValue(rows);
 
   draw();
 }

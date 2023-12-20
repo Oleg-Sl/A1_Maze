@@ -22,6 +22,8 @@ class MainWindow : public QMainWindow {
  public:
   const int kCellBorderWidth = 2;
   const int kSolutionLineWidth = 2;
+  const int kMaxMazeRows = 50;
+  const int kMaxMazeCols = 50;
 
   MainWindow(Adapter adapter, QWidget *parent = nullptr);
   ~MainWindow();

@@ -21,7 +21,7 @@ void QGraphicsCellItem::paint(QPainter* painter,
   Q_UNUSED(widget);
 
   QPen pen;
-  pen.setWidth(border_width_);
+  pen.setWidth(1);
   painter->setPen(pen);
 
   if (filled_) {
