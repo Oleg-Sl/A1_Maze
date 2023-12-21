@@ -5,6 +5,8 @@
 #include "filesaver.h"
 #include "mazegenerator.h"
 #include "mazesolver.h"
+//#include "cave_file_manager.h"
+#include "cave_tmp/cave_file_manager.h"
 
 namespace s21 {
 
@@ -34,5 +36,16 @@ void Adapter::saveMazeFile(const std::vector<std::vector<Cell>>& maze,
                            const std::string& filename) const {
   FileSaver().saveMaze(maze, filename);
 }
+
+
+std::vector<std::vector<bool>> Adapter::loadCaveFromFile(const std::string& filename) const {
+  try {
+    return MatrixFileHandler::load(filename);
+  } catch (const std::invalid_argument& e) {
+    std::cout << e.what();
+  }
+  return std::vector<std::vector<bool>>{};
+}
+
 
 }  // namespace s21

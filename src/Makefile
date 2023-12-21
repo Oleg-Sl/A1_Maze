@@ -1,3 +1,4 @@
+
 test:
 	mkdir -p build
 	cd build && cmake .. && cmake --build . --target MazeTests
@@ -6,3 +7,8 @@ test:
 install:
 	mkdir -p build
 	cd build && cmake .. && cmake --build . --target Maze
+
+cave:
+	mkdir -p build
+	cd build && cmake .. && cmake --build . --target Cave
+

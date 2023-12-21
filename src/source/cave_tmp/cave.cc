@@ -1,6 +1,5 @@
 #include "cave.h"
-#include <cmath>
-#include <iostream>
+
 
 namespace s21 {
 
@@ -9,15 +8,16 @@ Cave::Cave() {
 }
 
 
-Cave::Cave(size_t rows, size_t cols) {
+Cave::Cave(size_t rows, size_t cols) : rows_(rows), cols_(cols) {
     grid_.resize(rows, std::vector<bool>(cols, false));
-    rows_ = rows;
-    cols_ = cols;
-    grid_[1][1] = true;
 }
 
 
-Cave::Cave(const std::vector<std::vector<bool>> &grid) : rows_(grid.size()), cols_(grid.size() == 0 ? 0 : grid[0].size()), grid_(grid) {
+Cave::Cave(const Grid &matrix) : rows_(matrix.size()), cols_(matrix.size() == 0 ? 0 : matrix[0].size()), grid_(matrix) {
+}
+
+
+Cave::Cave(const Cave &other) : rows_(other.rows_), cols_(other.cols_), grid_(other.grid_) {
 }
 
 
@@ -31,7 +31,7 @@ size_t Cave::getCols() const {
 }
 
 
-bool Cave::getCell(size_t row, size_t col) const {
+bool Cave::isAlive(size_t row, size_t col) const {
     if (row >= rows_ || col >= cols_) {
         throw std::out_of_range("Index out of range");
     }
@@ -39,12 +39,41 @@ bool Cave::getCell(size_t row, size_t col) const {
 }
 
 
-void  Cave::setCell(size_t row, size_t col, bool value) {
+void Cave::setAlive(size_t row, size_t col, bool alive) {
     if (row >= rows_ || col >= cols_) {
         throw std::out_of_range("Index out of range");
     }
-    grid_[row][col] = value;
+    grid_[row][col] = alive;
 }
+
+
+const Cave::Grid &Cave::getGrid() const {
+    return grid_;
+}
+
+size_t Cave::get_number_living_neighbors(size_t row, size_t col) {
+    if (row >= rows_ || col >= cols_) {
+        throw std::out_of_range("Index out of range");
+    }
+    size_t number = 0;
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            if (i == 0 && j == 0) {
+                continue;
+            }
+
+            if ((row == 0 && i == -1) || (col == 0 && j == -1) || (row == rows_ - 1 && i == 1) || (col == cols_ - 1 && j == 1)) {
+                ++number;
+                continue;
+            }
+            if (grid_[row + i][col + j]) {
+                ++number;
+            }
+        }
+    }
+    return number;
+}
+
 
 void Cave::print() const {
     for (size_t i = 0; i < rows_ + 2; i++) {
@@ -61,9 +90,9 @@ void Cave::print() const {
         std::cout << "| ";
         for (size_t j = 0; j < cols_; j++) {
             if (grid_[i][j]) {
-                std::cout << " " << static_cast<char>(219) << " ";
-            } else {
                 std::cout << " . ";
+            } else {
+                std::cout << " " << static_cast<char>(219) << " ";
             }
         }
         std::cout << " |" << std::endl;
@@ -84,13 +113,19 @@ void Cave::print() const {
 }  // namespace s21
 
 
-int main(int argc, char const *argv[]) {
-    size_t rows = 25;
-    size_t cols = 25;
-    // std::cout << rows << " " << cols << std::endl;
-    s21::Cave cave(rows, cols);
-    std::cout << "rows = " << rows << ", cols = " << cols << std::endl;
-    cave.print();
+// int main(int argc, char const *argv[]) {
+//     // size_t rows = 7;
+//     // size_t cols = 7;
+//     // // std::cout << rows << " " << cols << std::endl;
+//     // s21::Cave cave(rows, cols);
+//     // std::cout << "rows = " << rows << ", cols = " << cols << std::endl;
+//     // cave.print();
+//     std::string filename = "../../assets/cave_10x10.txt";
+//     std::vector<std::vector<bool>> matrix = s21::MatrixFileHandler::load(filename);
+//     s21::Cave cave(matrix);
+//     cave.print();
 
-    return 0;
-}
+//     // s21::MatrixFileHandler::save(cave.getGrid(), "test.txt");
+
+//     return 0;
+// }

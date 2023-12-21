@@ -11,12 +11,17 @@ namespace s21 {
 
 class Adapter {
  public:
-  std::vector<std::vector<Cell>> generateMaze(const int M, const int N) const;
-  std::vector<Point2D> solutionMaze(std::vector<std::vector<Cell>> maze,
-                                    Point2D start, Point2D end) const;
-  std::vector<std::vector<Cell>> loadMazeFromFile(std::string filename) const;
-  void saveMazeFile(const std::vector<std::vector<Cell>>& maze,
-                    const std::string& filename) const;
+    std::vector<std::vector<Cell>> generateMaze(const int M, const int N) const;
+    std::vector<Point2D> solutionMaze(std::vector<std::vector<Cell>> maze, Point2D start, Point2D end) const;
+    std::vector<std::vector<Cell>> loadMazeFromFile(std::string filename) const;
+    void saveMazeFile(const std::vector<std::vector<Cell>>& maze, const std::string& filename) const;
+
+    std::vector<std::vector<bool>> loadCaveFromFile(const std::string& filename) const;
+    void saveCaveToFile(const std::string& filename) const;
+    void evolveCave();
+    void generateCave();
+    // const std::vector<std::vector<bool>>& getCaveGrid() const;
+
 };
 }  // namespace s21
 

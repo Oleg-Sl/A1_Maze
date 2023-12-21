@@ -15,12 +15,17 @@ set(COMMON_DIR "${BASE_DIR}/source/common")
 set(MODEL_DIR "${BASE_DIR}/source/model")
 set(VIEW_DIR "${BASE_DIR}/source/view")
 
+set(CAVE_DIR "${BASE_DIR}/source/cave_tmp")
+
 set(HEADER_DIRS ${ADAPTER_DIR} ${COMMON_DIR} ${MODEL_DIR} ${VIEW_DIR})
 
 file(GLOB_RECURSE MODEL_SOURCES "${MODEL_DIR}/*.cc" "${MODEL_DIR}/*.h")
 file(GLOB_RECURSE VIEW_SOURCES "${VIEW_DIR}/*.cc" "${VIEW_DIR}/*.h" "${VIEW_DIR}/*.ui")
 file(GLOB_RECURSE ADAPTER_SOURCES "${ADAPTER_DIR}/*.cc" "${ADAPTER_DIR}/*.h")
 file(GLOB_RECURSE COMMON_SOURCES "${COMMON_DIR}/*.cc" "${COMMON_DIR}/*.h")
+
+file(GLOB_RECURSE COMMON_SOURCES "${CAVE_DIR}/*.cc" "${CAVE_DIR}/*.h")
+
 
 add_subdirectory(source)
 
