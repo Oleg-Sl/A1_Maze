@@ -20,12 +20,10 @@ void QGraphicsCellItem::paint(QPainter* painter,
   Q_UNUSED(option);
   Q_UNUSED(widget);
 
-  QPen pen;
-  pen.setWidth(1);
-  painter->setPen(pen);
+  painter->setPen(QPen(color_, border_width_));
 
   if (filled_) {
-    painter->fillRect(x1_, y1_, x2_, y2_, QBrush(Qt::black));
+    painter->fillRect(x1_, y1_, x2_, y2_, color_);
   } else {
     if (up_border_) {
       painter->drawLine(x1_, y1_, x2_, y1_);
@@ -49,5 +47,6 @@ void QGraphicsCellItem::setBorderRight(bool show) { right_border_ = show; }
 
 void QGraphicsCellItem::setFilled(bool filled) { filled_ = filled; }
 void QGraphicsCellItem::setBorderWidth(int width) { border_width_ = width; }
+void QGraphicsCellItem::setColor(QColor color) { color_ = color; }
 
 }  // namespace s21

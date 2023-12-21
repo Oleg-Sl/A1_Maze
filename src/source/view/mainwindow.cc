@@ -33,7 +33,7 @@ void MainWindow::drawMaze(QGraphicsScene &scene,
   if (maze.size() == 0 || maze[0].size() == 0) {
     return;
   }
-  // TODO: пофиксить отрисовку, нужно учитывать width line
+  
   QRectF scene_rect = scene.sceneRect();
   size_t rows = maze.size();
   size_t cols = maze[0].size();
@@ -95,10 +95,8 @@ void MainWindow::drawSolution() {
     int y2 = (end.y * cell_height) + cell_height / 2;
 
     QGraphicsLineItem *line = new QGraphicsLineItem(x, y, x2, y2);
-    QPen newPen(Qt::red);
-    newPen.setWidth(kSolutionLineWidth);
 
-    line->setPen(newPen);
+    line->setPen(QPen(kSolutionLineColor, kSolutionLineWidth));
 
     scene->addItem(line);
   }
@@ -118,9 +116,8 @@ void MainWindow::generateMaze() {
 }
 
 void MainWindow::draw() {
-  ui_->view_screen->resetTransform();
-  QGraphicsScene *scene = new QGraphicsScene;
-  scene->setSceneRect(ui_->view_screen->rect());
+  QGraphicsScene *scene = new QGraphicsScene();
+  scene->setSceneRect(ui_->view_screen->rect().adjusted(0, 0, -2, -2));
 
   drawMaze(*scene, maze_);
 

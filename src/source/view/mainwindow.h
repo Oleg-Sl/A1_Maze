@@ -24,6 +24,7 @@ class MainWindow : public QMainWindow {
   const int kSolutionLineWidth = 2;
   const int kMaxMazeRows = 50;
   const int kMaxMazeCols = 50;
+  const QColor kSolutionLineColor = Qt::red;
 
   MainWindow(Adapter adapter, QWidget *parent = nullptr);
   ~MainWindow();
