@@ -7,13 +7,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_compile_options(-Wall -Wextra -pedantic -Werror)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g")
+if(CMAKE_BUILD_TYPE MATCHES "^Debug")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g")
+else()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")
+endif()
 
 set(BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 set(ADAPTER_DIR "${BASE_DIR}/source/adapter")
 set(COMMON_DIR "${BASE_DIR}/source/common")
 set(MODEL_DIR "${BASE_DIR}/source/model")
 set(VIEW_DIR "${BASE_DIR}/source/view")
+set(ASSETS_DIR "${BASE_DIR}/assets")
 
 set(HEADER_DIRS ${ADAPTER_DIR} ${COMMON_DIR} ${MODEL_DIR} ${VIEW_DIR})
 
