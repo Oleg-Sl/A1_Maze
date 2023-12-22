@@ -91,8 +91,22 @@ std::vector<Point2D> MazeSolver::reconstructPath(
   return path;
 }
 
+bool MazeSolver::validateParams(const Maze& maze, Point2D start,
+                                Point2D end) const {
+  int cols = static_cast<int>(maze.getCols());
+  int rows = static_cast<int>(maze.getRows());
+
+  return cols > 0 && rows > 0 && start.x >= 0 && start.y >= 0 && end.x >= 0 &&
+         end.y >= 0 && start.x < cols && end.x < cols && start.y < rows &&
+         end.y < rows;
+}
+
 std::vector<Point2D> MazeSolver::findPath(const Maze& maze, Point2D start,
                                           Point2D end) const {
+  if (!validateParams(maze, start, end)) {
+    return std::vector<Point2D>();
+  }
+
   std::vector<std::vector<int>> grid_paths = generateWave(maze, start, end);
   return reconstructPath(maze, grid_paths, end);
 }

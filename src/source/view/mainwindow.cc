@@ -15,8 +15,10 @@ MainWindow::MainWindow(Adapter adapter, QWidget *parent)
 
   ui_->spin_cols->setMaximum(kMaxMazeCols);
   ui_->spin_rows->setMaximum(kMaxMazeRows);
+  ui_->spin_start_x->setMaximum(kMaxMazeCols);
   ui_->spin_end_x->setMaximum(kMaxMazeCols);
-  ui_->spin_end_y->setMaximum(kMaxMazeCols);
+  ui_->spin_start_y->setMaximum(kMaxMazeRows);
+  ui_->spin_end_y->setMaximum(kMaxMazeRows);
 
   scene_.setSceneRect(ui_->view_screen->rect().adjusted(0, 0, -2, -2));
   ui_->view_screen->setScene(&scene_);
@@ -84,6 +86,10 @@ std::vector<Point2D> MainWindow::generateSolutionForScene(
     const QGraphicsScene &scene, const std::vector<std::vector<Cell>> &maze,
     Point2D start, Point2D end) {
   std::vector<Point2D> path;
+
+  if (maze.size() == 0 || maze[0].size() == 0) {
+    return path;
+  }
 
   path = adapter_.solutionMaze(maze, {start.x, start.y}, {end.x, end.y});
 
