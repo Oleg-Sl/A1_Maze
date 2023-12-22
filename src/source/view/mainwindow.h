@@ -28,9 +28,17 @@ class MainWindow : public QMainWindow {
 
   MainWindow(Adapter adapter, QWidget *parent = nullptr);
   ~MainWindow();
-  void drawMaze(QGraphicsScene &scene,
-                const std::vector<std::vector<Cell>> &grid);
-  void draw();
+  void addMazeOnScene(QGraphicsScene &scene,
+                      const std::vector<std::vector<Cell>> &maze);
+  void clearSolution(QGraphicsScene &scene);
+  std::vector<Point2D> generateSolutionForScene(
+      const QGraphicsScene &scene, const std::vector<std::vector<Cell>> &maze,
+      Point2D start, Point2D end);
+  void addSolutionOnScene(QGraphicsScene &scene,
+                          const std::vector<Point2D> &solution);
+
+ public slots:
+  void drawMaze();
   void drawSolution();
   void importMazeFile();
   void exportMazeFile();
@@ -39,6 +47,7 @@ class MainWindow : public QMainWindow {
  private:
   s21::Adapter adapter_;
   std::vector<std::vector<Cell>> maze_;
+  QGraphicsScene scene_;
   Ui::MainWindow *ui_;
 };
 

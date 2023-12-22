@@ -18,22 +18,29 @@ MainWindow::MainWindow(Adapter adapter, QWidget *parent)
   ui_->spin_end_x->setMaximum(kMaxMazeCols);
   ui_->spin_end_y->setMaximum(kMaxMazeCols);
 
+  scene_.setSceneRect(ui_->view_screen->rect().adjusted(0, 0, -2, -2));
+  ui_->view_screen->setScene(&scene_);
+
   connect(ui_->button_generate, &QPushButton::clicked, this,
           &MainWindow::generateMaze);
+  connect(ui_->button_generate, &QPushButton::clicked, this,
+          &MainWindow::drawMaze);
   connect(ui_->button_build_path, &QPushButton::clicked, this,
           &MainWindow::drawSolution);
   connect(ui_->button_import, &QPushButton::clicked, this,
           &MainWindow::importMazeFile);
+  connect(ui_->button_import, &QPushButton::clicked, this,
+          &MainWindow::drawMaze);
   connect(ui_->button_export, &QPushButton::clicked, this,
           &MainWindow::exportMazeFile);
 }
 
-void MainWindow::drawMaze(QGraphicsScene &scene,
-                          const std::vector<std::vector<Cell>> &maze) {
+void MainWindow::addMazeOnScene(QGraphicsScene &scene,
+                                const std::vector<std::vector<Cell>> &maze) {
   if (maze.size() == 0 || maze[0].size() == 0) {
     return;
   }
-  
+
   QRectF scene_rect = scene.sceneRect();
   size_t rows = maze.size();
   size_t cols = maze[0].size();
@@ -63,42 +70,50 @@ void MainWindow::drawMaze(QGraphicsScene &scene,
   }
 }
 
-void MainWindow::drawSolution() {
-  QGraphicsScene *scene = ui_->view_screen->scene();
+void MainWindow::clearSolution(QGraphicsScene &scene) {
+  QList<QGraphicsItem *> items = scene.items();
 
-  int x1 = ui_->spin_start_x->value() - 1;
-  int y1 = ui_->spin_start_y->value() - 1;
-  int x2 = ui_->spin_end_x->value() - 1;
-  int y2 = ui_->spin_end_y->value() - 1;
+  for (QGraphicsItem *item : items) {
+    if (item->type() == QGraphicsLineItem::Type) {
+      scene.removeItem(item);
+    }
+  }
+}
 
-  std::vector<Point2D> path = adapter_.solutionMaze(maze_, {x1, y1}, {x2, y2});
+std::vector<Point2D> MainWindow::generateSolutionForScene(
+    const QGraphicsScene &scene, const std::vector<std::vector<Cell>> &maze,
+    Point2D start, Point2D end) {
+  std::vector<Point2D> path;
 
-  if (path.size() <= 1) {
+  path = adapter_.solutionMaze(maze, {start.x, start.y}, {end.x, end.y});
+
+  qreal cell_height = scene.sceneRect().height() / maze.size();
+  qreal cell_width = scene.sceneRect().width() / maze[0].size();
+
+  for (Point2D &point : path) {
+    point.x = point.x * cell_width + cell_width / 2;
+    point.y = point.y * cell_height + cell_height / 2;
+  }
+
+  return path;
+}
+
+void MainWindow::addSolutionOnScene(QGraphicsScene &scene,
+                                    const std::vector<Point2D> &solution) {
+  if (solution.size() <= 1) {
     return;
   }
 
-  QRectF scene_rect = scene->sceneRect();
-  size_t M = maze_.size();
-  size_t N = maze_[0].size();
+  for (size_t i = 0; i < solution.size() - 1; i++) {
+    Point2D start = solution[i];
+    Point2D end = solution[i + 1];
 
-  qreal cell_height = scene_rect.height() / M;
-  qreal cell_width = scene_rect.width() / N;
-
-  for (size_t i = 0; i < path.size() - 1; i++) {
-    Point2D start = path[i];
-    Point2D end = path[i + 1];
-
-    int x = (start.x * cell_width) + cell_width / 2;
-    int y = (start.y * cell_height) + cell_height / 2;
-
-    int x2 = (end.x * cell_width) + cell_width / 2;
-    int y2 = (end.y * cell_height) + cell_height / 2;
-
-    QGraphicsLineItem *line = new QGraphicsLineItem(x, y, x2, y2);
+    QGraphicsLineItem *line =
+        new QGraphicsLineItem(start.x, start.y, end.x, end.y);
 
     line->setPen(QPen(kSolutionLineColor, kSolutionLineWidth));
 
-    scene->addItem(line);
+    scene.addItem(line);
   }
 }
 
@@ -111,17 +126,23 @@ void MainWindow::generateMaze() {
   ui_->spin_end_y->setRange(1, rows);
   ui_->spin_end_x->setValue(cols);
   ui_->spin_end_y->setValue(rows);
-
-  draw();
 }
 
-void MainWindow::draw() {
-  QGraphicsScene *scene = new QGraphicsScene();
-  scene->setSceneRect(ui_->view_screen->rect().adjusted(0, 0, -2, -2));
+void MainWindow::drawMaze() {
+  scene_.clear();
+  addMazeOnScene(scene_, maze_);
+}
 
-  drawMaze(*scene, maze_);
+void MainWindow::drawSolution() {
+  int x1 = ui_->spin_start_x->value() - 1;
+  int x2 = ui_->spin_end_x->value() - 1;
+  int y1 = ui_->spin_start_y->value() - 1;
+  int y2 = ui_->spin_end_y->value() - 1;
 
-  ui_->view_screen->setScene(scene);
+  clearSolution(scene_);
+  std::vector<Point2D> path =
+      generateSolutionForScene(scene_, maze_, {x1, y1}, {x2, y2});
+  addSolutionOnScene(scene_, path);
 }
 
 void MainWindow::importMazeFile() {
@@ -130,7 +151,6 @@ void MainWindow::importMazeFile() {
           .toStdString();
 
   maze_ = adapter_.loadMazeFromFile(filename);
-  draw();
 }
 
 void MainWindow::exportMazeFile() {
