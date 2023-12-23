@@ -4,46 +4,80 @@
 #include <stdexcept>
 #include <vector>
 
-#include "filereader.h"
+#include "maze.h"
 
-TEST(MazeReader, CorrectFile) {
-  s21::FileReader reader;
-  size_t M = 3;
-  size_t N = 3;
+namespace s21 {
 
-  std::vector<std::vector<int>> right_walls(M, std::vector<int>(N, 1));
-  std::vector<std::vector<int>> down_walls(M, std::vector<int>(N, 0));
+TEST(MazeFunctions, BuildWall) {
+  Maze maze(3, 3);
 
-  s21::Maze test_maze(right_walls, down_walls);
-  s21::Maze loaded_maze = reader.loadMaze("source/map_examples/maze_3x3.txt");
+  maze.buildWall(0, 0, Maze::WallPosition::kRight);
 
-  ASSERT_EQ(test_maze.getM(), loaded_maze.getM());
-  ASSERT_EQ(test_maze.getM(), loaded_maze.getM());
-  ASSERT_EQ(test_maze.getGrid(), loaded_maze.getGrid());
+  ASSERT_EQ(maze(0, 0).right_wall, 1);
+  ASSERT_EQ(maze(0, 1).left_wall, 1);
 }
 
-TEST(MazeReader, ThrowNotExistFile) {
-  s21::FileReader reader;
+TEST(MazeFunctions, RemoveWall) {
+  Maze maze(3, 3);
 
-  ASSERT_THROW(reader.loadMaze("not_exist"),
-               std::invalid_argument);
+  maze.buildWall(0, 0, Maze::WallPosition::kRight);
+  maze.removeWall(0, 0, Maze::WallPosition::kRight);
+
+  ASSERT_EQ(maze(0, 0).right_wall, 0);
+  ASSERT_EQ(maze(0, 1).left_wall, 0);
 }
 
-// TEST(MazeReader, FileWithoutSizeLine) {
-//   s21::FileReader reader;
-//   size_t M = 3;
-//   size_t N = 3;
+TEST(MazeFunctions, DefaultConstructor) {
+  Maze maze;
 
-//   std::vector<std::vector<int>> right_walls(M, std::vector<int>(N, 1));
-//   std::vector<std::vector<int>> down_walls(M, std::vector<int>(N, 0));
+  ASSERT_EQ(maze.getRows(), 0);
+  ASSERT_EQ(maze.getCols(), 0);
+}
 
-//   s21::Maze test_maze(right_walls, down_walls);
-//   s21::Maze loaded_maze = reader.loadMaze("map_examples/maze_without_size.txt");
+TEST(MazeFunctions, ConstructorWithSize) {
+  Maze maze(4, 4);
 
-//   ASSERT_EQ(test_maze.getM(), loaded_maze.getM());
-//   ASSERT_EQ(test_maze.getM(), loaded_maze.getM());
-//   ASSERT_EQ(test_maze.getGrid(), loaded_maze.getGrid());
-// }
+  ASSERT_EQ(maze.getRows(), 4);
+  ASSERT_EQ(maze.getCols(), 4);
+}
 
+TEST(MazeFunctions, ConstructorWithGrid) {
+  std::vector<std::vector<Cell>> initial_grid = {{Cell()}, {Cell()}};
 
+  Maze maze(initial_grid);
 
+  ASSERT_EQ(maze.getRows(), initial_grid.size());
+  ASSERT_EQ(maze.getCols(), initial_grid[0].size());
+}
+
+TEST(MazeFunctions, OperatorParentheses) {
+  Maze maze(3, 3);
+  Cell cell = maze(1, 1);
+
+  ASSERT_EQ(cell.up_wall, 0);
+  ASSERT_EQ(cell.down_wall, 0);
+  ASSERT_EQ(cell.left_wall, 0);
+  ASSERT_EQ(cell.right_wall, 0);
+}
+
+TEST(MazeFunctions, ThrowOperatorParenthesesGreaterRowsSize) {
+  Maze maze(5, 3);
+  ASSERT_THROW(maze(maze.getRows() + 1, 1), std::invalid_argument);
+}
+
+TEST(MazeFunctions, ThrowOperatorParenthesesGreaterColsSize) {
+  Maze maze(3, 5);
+  ASSERT_THROW(maze(1, maze.getCols() + 1), std::invalid_argument);
+}
+
+TEST(MazeFunctions, ThrowOperatorParenthesesRowLessZero) {
+  Maze maze(3, 5);
+  ASSERT_THROW(maze(-1, 1), std::invalid_argument);
+}
+
+TEST(MazeFunctions, ThrowOperatorParenthesesColLessZero) {
+  Maze maze(3, 5);
+  ASSERT_THROW(maze(1, -5), std::invalid_argument);
+}
+
+}  // namespace s21
