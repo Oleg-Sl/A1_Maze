@@ -23,7 +23,8 @@ std::vector<std::vector<Cell>> FileReader::loadMaze(
   std::istringstream iss(line);
   size_t rows, cols;
 
-  if (!(iss >> rows >> cols) || iss.rdbuf()->in_avail() != 0) {
+  if (!(iss >> rows >> cols) || iss.rdbuf()->in_avail() != 0 || rows <= 0 ||
+      cols <= 0) {
     throw std::invalid_argument(
         "Invalid format in the first line. Expected two integers.");
   }

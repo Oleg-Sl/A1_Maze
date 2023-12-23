@@ -26,10 +26,11 @@ class Maze {
 
   void buildWall(size_t row, size_t col, WallPosition pos);
   void removeWall(size_t row, size_t col, WallPosition pos);
-  void buildMazeBorder();
 
  private:
+  void buildMazeBorder();
   void buildMissingWalls();
+  void validatePosition(size_t row, size_t col) const;
 
   size_t rows_{0};
   size_t cols_{0};

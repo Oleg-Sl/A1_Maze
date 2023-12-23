@@ -43,7 +43,10 @@ std::vector<std::vector<int>> Maze::getWallMatrix(WallPosition position) const {
   return result;
 }
 
-Cell Maze::operator()(size_t row, size_t col) const { return grid_[row][col]; }
+Cell Maze::operator()(size_t row, size_t col) const {
+  validatePosition(row, col);
+  return grid_[row][col];
+}
 
 std::vector<std::vector<Cell>> Maze::getGrid() const { return grid_; }
 
@@ -52,9 +55,7 @@ size_t Maze::getRows() const { return rows_; }
 size_t Maze::getCols() const { return cols_; }
 
 void Maze::buildWall(size_t row, size_t col, WallPosition pos) {
-  if (row < 0 || row >= rows_ || col < 0 || col <= cols_) {
-    return;
-  }
+  validatePosition(row, col);
 
   if (pos == WallPosition::kUp) {
     grid_[row][col].up_wall = 1;
@@ -72,9 +73,7 @@ void Maze::buildWall(size_t row, size_t col, WallPosition pos) {
 }
 
 void Maze::removeWall(size_t row, size_t col, WallPosition pos) {
-  if (row < 0 || row >= rows_ || col < 0 || col <= cols_) {
-    return;
-  }
+  validatePosition(row, col);
 
   if (pos == WallPosition::kUp && row != 0) {
     grid_[row][col].up_wall = 0;
@@ -124,6 +123,12 @@ void Maze::buildMissingWalls() {
         grid_[row][col + 1].left_wall = curr.right_wall;
       }
     }
+  }
+}
+
+void Maze::validatePosition(size_t row, size_t col) const {
+  if (row >= rows_ || col >= cols_) {
+    throw std::invalid_argument("Invalid col or row");
   }
 }
 

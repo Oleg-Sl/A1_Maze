@@ -45,7 +45,7 @@ std::vector<std::vector<int>> MazeSolver::generateWave(const Maze& maze,
     for (size_t row = 0; row < rows; ++row) {
       for (size_t col = 0; col < cols; ++col) {
         if (grid_paths[row][col] == move_counter) {
-          for (Point2D move :
+          for (Point2D& move :
                getMoves(maze(row, col),
                         {static_cast<int>(col), static_cast<int>(row)})) {
             int x = move.x;
@@ -79,7 +79,7 @@ std::vector<Point2D> MazeSolver::reconstructPath(
     path.push_back({x, y});
     move_counter--;
 
-    for (Point2D move : getMoves(maze(y, x), {x, y})) {
+    for (Point2D& move : getMoves(maze(y, x), {x, y})) {
       if (grid_paths[move.y][move.x] == move_counter) {
         x = move.x;
         y = move.y;

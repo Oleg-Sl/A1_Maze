@@ -127,15 +127,16 @@ void MainWindow::generateMaze() {
   size_t rows = ui_->spin_rows->value();
   size_t cols = ui_->spin_cols->value();
   maze_ = adapter_.generateMaze(rows, cols);
-
-  ui_->spin_end_x->setRange(1, cols);
-  ui_->spin_end_y->setRange(1, rows);
-  ui_->spin_end_x->setValue(cols);
-  ui_->spin_end_y->setValue(rows);
 }
 
 void MainWindow::drawMaze() {
   scene_.clear();
+
+  size_t rows = maze_.size();
+  size_t cols = rows != 0 ? maze_[0].size() : 0;
+  
+  ui_->spin_end_x->setValue(cols);
+  ui_->spin_end_y->setValue(rows);
   addMazeOnScene(scene_, maze_);
 }
 
