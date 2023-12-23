@@ -18,18 +18,19 @@ class Maze {
   Maze(const std::vector<std::vector<Cell>> &grid);
 
   Cell operator()(size_t row, size_t col) const;
-  Cell &operator()(size_t row, size_t col);
 
   std::vector<std::vector<int>> getWallMatrix(WallPosition position) const;
   std::vector<std::vector<Cell>> getGrid() const;
   size_t getRows() const;
   size_t getCols() const;
 
-  void setGrid(const std::vector<std::vector<Cell>> &grid);
-
-  void print() const;
+  void buildWall(size_t row, size_t col, WallPosition pos);
+  void removeWall(size_t row, size_t col, WallPosition pos);
+  void buildMazeBorder();
 
  private:
+  void buildMissingWalls();
+
   size_t rows_{0};
   size_t cols_{0};
   std::vector<std::vector<Cell>> grid_{};
