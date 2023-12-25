@@ -8,6 +8,8 @@
 #include "adapter.h"
 #include "cell.h"
 
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -19,38 +21,55 @@ namespace s21 {
 class MainWindow : public QMainWindow {
   Q_OBJECT
 
- public:
-  const int kCellBorderWidth = 2;
-  const int kSolutionLineWidth = 2;
-  const int kMaxMazeRows = 50;
-  const int kMaxMazeCols = 50;
-  const int kMaxCaveRows = 50;
-  const int kMaxCaveCols = 50;
-  const int kMinCaveBirthDeathLimit = 0;
-  const int kMaxCaveBirthDeathLimit = 7;
+public:
+    const int kCellBorderWidth = 2;
+    const int kSolutionLineWidth = 2;
+    const int kMaxMazeRows = 50;
+    const int kMaxMazeCols = 50;
+    const int kMaxCaveRows = 50;
+    const int kMaxCaveCols = 50;
+    const int kMinCaveBirthDeathLimit = 0;
+    const int kMaxCaveBirthDeathLimit = 7;
+    const int kMinTimeout = 10;
 
-  MainWindow(Adapter adapter, QWidget *parent = nullptr);
-  ~MainWindow();
-  void drawMaze(QGraphicsScene &scene, const std::vector<std::vector<Cell>> &grid);
-  void draw();
-  void drawSolution();
-  void importMazeFile();
-  void exportMazeFile();
-  void generateMaze();
+    MainWindow(Adapter adapter, QWidget *parent = nullptr);
+    ~MainWindow();
 
-  void drawCave();
-  void importCaveFile();
-  void exportCaveFile();
-  void generateCave();
-  void makeStepCave();
-  void autoEvolveCave();
+    void drawMaze(QGraphicsScene &scene, const std::vector<std::vector<Cell>> &grid);
+    void draw();
+    void drawSolution();
+    void importMazeFile();
+    void exportMazeFile();
+    void generateMaze();
 
- private:
-  s21::Adapter adapter_;
-  std::vector<std::vector<Cell>> maze_;
-  std::vector<std::vector<bool>> cave_;
-  Ui::MainWindow *ui_;
+    // void importCaveFile();
+    // void exportCaveFile();
+//     void generateCave();
+
+    void drawCave();
+    bool makeStepCave();
+    void stopTimerCave();
+
+public slots:
+    void handleChangeTab();
+    void handleImportMatrixFile();
+    void handleExportMatrixFile();
+    void handleGenerateGridCave();
+    void handleStepEvolutionCave();
+    void handleAutoEvolutionCave();
+    void handleTimerEvolutionCave();
+    // void autoEvolveCave();
+    // void updateTimeoutTimer();
+
+private:
+    s21::Adapter adapter_;
+    std::vector<std::vector<Cell>> maze_;
+    std::vector<std::vector<bool>> cave_;
+    Ui::MainWindow *ui_;
+    QTimer *timer_;
+
 };
+
 
 }  // namespace s21
 #endif  // __MAZE_SOURCE_VIEW_MAINWINDOW_H__

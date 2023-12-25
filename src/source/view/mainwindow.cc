@@ -2,6 +2,7 @@
 #include <QFileDialog>
 #include <QGraphicsRectItem>
 #include <QString>
+#include <QTimer>
 
 #include "./ui_mainwindow.h"
 #include "mainwindow.h"
@@ -24,6 +25,7 @@ MainWindow::MainWindow(Adapter adapter, QWidget *parent)
   ui_->spin_cave_birth_limit->setMaximum(kMaxCaveBirthDeathLimit);
   ui_->spin_cave_death_limit->setMinimum(kMinCaveBirthDeathLimit);
   ui_->spin_cave_death_limit->setMaximum(kMaxCaveBirthDeathLimit);
+  ui_->spin_cave_interval->setMinimum(kMinTimeout);
 
   connect(ui_->button_generate, &QPushButton::clicked, this,
           &MainWindow::generateMaze);
@@ -34,11 +36,17 @@ MainWindow::MainWindow(Adapter adapter, QWidget *parent)
   connect(ui_->button_export, &QPushButton::clicked, this,
           &MainWindow::exportMazeFile);
 
-  connect(ui_->btn_cave_import, &QPushButton::clicked, this, &MainWindow::importCaveFile);
-  connect(ui_->btn_cave_export, &QPushButton::clicked, this, &MainWindow::exportCaveFile);
-  connect(ui_->btn_cave_generate, &QPushButton::clicked, this, &MainWindow::generateCave);
-  connect(ui_->btn_cave_step, &QPushButton::clicked, this, &MainWindow::makeStepCave);
-  connect(ui_->btn_cave_auto, &QPushButton::clicked, this, &MainWindow::autoEvolveCave);
+  connect(ui_->btn_cave_import, &QPushButton::clicked, this, &MainWindow::handleImportMatrixFile);
+ connect(ui_->btn_cave_export, &QPushButton::clicked, this, &MainWindow::handleExportMatrixFile);
+  connect(ui_->btn_cave_generate, &QPushButton::clicked, this, &MainWindow::handleGenerateGridCave);
+  connect(ui_->btn_cave_step, &QPushButton::clicked, this, &MainWindow::handleStepEvolutionCave);
+  connect(ui_->btn_cave_auto, &QPushButton::clicked, this, &MainWindow::handleAutoEvolutionCave);
+
+  connect(ui_->tabwidget_mazetype, &QTabWidget::currentChanged, this, &MainWindow::handleChangeTab);
+
+
+  timer_ = new QTimer(this);
+  connect(timer_, &QTimer::timeout, this, &MainWindow::handleTimerEvolutionCave);
 
 }
 
@@ -158,68 +166,107 @@ void MainWindow::exportMazeFile() {
 }
 
 
-void MainWindow::drawCave() {
-  ui_->view_screen->resetTransform();
-  QGraphicsScene *scene = new QGraphicsScene;
-  scene->setSceneRect(ui_->view_screen->rect());
-  if (cave_.size() != 0 && cave_[0].size() != 0) {
-    size_t rows = cave_.size();
-    size_t cols = cave_[0].size();
-    QRectF scene_rect = scene->sceneRect();
-    qDebug() << scene_rect.height() << " - " << scene_rect.width();
-    qreal cell_height = scene_rect.height() / rows;
-    qreal cell_width = scene_rect.width() / cols;
-    for (size_t row = 0; row < rows; row++) {
-      for (size_t col = 0; col < cols; col++) {
-        int x = (col * cell_width);
-        //  + cell_width / 2;
-        int y = (row * cell_height);
-        if (cave_[row][col]) {
-            scene->addRect(x, y, cell_width, cell_height, QPen(QBrush(Qt::black), 0), QBrush(Qt::black));
-
-//            scene->addRect(x, y, cell_width, cell_height, QPen(), QBrush(Qt::red));
-        }
-        //  + cell_height / 2;
-        // QGraphicsCellItem *cell = new QGraphicsCellItem(x, y, x + cell_width, y + cell_height);
-        // cell->setBorderDown(grid[row][col]);
-        // cell->setBorderLeft(grid[row][col]);
-        // cell->setBorderRight(grid[row][col]);
-        // cell->setBorderUp(grid[row][col]);
-        // cell->setBorderWidth(kCellBorderWidth);
-        // scene.addItem(cell);
-      }
-    }
-  }
-  // drawMaze(*scene, maze_);
-
-  ui_->view_screen->setScene(scene);
+void MainWindow::handleChangeTab() {
+    stopTimerCave();
+    QGraphicsScene *scene = new QGraphicsScene();
+    ui_->view_screen->setScene(scene);
 }
 
 
-void MainWindow::importCaveFile() {
+void MainWindow::handleImportMatrixFile() {
   std::string filename = QFileDialog::getOpenFileName(this, "Open File", "./", tr("*.txt")).toStdString();
   if (filename.empty()) {
     qDebug() << "File not found";
     return;
   }
-  cave_ = adapter_.loadCaveFromFile(filename);
+  adapter_.loadCaveFromFile(filename);
   drawCave();
-  qDebug() << cave_.size() << " " << cave_[0].size();
 }
 
-void MainWindow::exportCaveFile() {
+
+void MainWindow::handleExportMatrixFile() {
+  std::string filename = QFileDialog::getSaveFileName(this, "Save cave", "./", tr("*.txt")).toStdString();
+  if (filename.empty()) {
+    return;
+  }
+  adapter_.saveCaveToFile(filename);
+}
+
+
+void MainWindow::handleGenerateGridCave() {
+   adapter_.generateCave(ui_->spin_cave_rows->value(), ui_->spin_cave_cols->value(), ui_->spin_cave_probability_birth->value());
+   drawCave();
+}
+
+
+void MainWindow::handleStepEvolutionCave() {
+  makeStepCave();
+  drawCave();
+}
+
+
+void MainWindow::handleAutoEvolutionCave() {
+  if (timer_->isActive()) {
+    stopTimerCave();
+    return;
+  }
+  timer_->start(ui_->spin_cave_interval->value());
+  ui_->btn_cave_step->setEnabled(false);
 
 }
 
-void MainWindow::generateCave() {
 
-}
-void MainWindow::makeStepCave() {
+void MainWindow::handleTimerEvolutionCave() {
+  timer_->start(ui_->spin_cave_interval->value());
 
-}
-void MainWindow::autoEvolveCave() {
+  if (!makeStepCave()) {
+    stopTimerCave();
+    return;
+  }
 
+  drawCave();
 }
+
+
+void MainWindow::drawCave() {
+    ui_->view_screen->resetTransform();
+    QGraphicsScene *scene = new QGraphicsScene;
+    scene->setSceneRect(ui_->view_screen->rect());
+
+    const std::vector<std::vector<bool>>& cave = adapter_.getCaveGrid();
+    size_t rows = cave.size();
+    size_t cols = rows != 0 ? cave[0].size() : 0;
+    QRectF scene_rect = scene->sceneRect();
+    qreal cell_height = scene_rect.height() / rows;
+    qreal cell_width = scene_rect.width() / cols;
+
+    for (size_t row = 0; row < rows; row++) {
+      for (size_t col = 0; col < cols; col++) {
+        if (cave[row][col]) {
+            qreal x = (col * cell_width);
+            qreal y = (row * cell_height);
+            scene->addRect(x, y, cell_width, cell_height, QPen(QBrush(Qt::black), 0), QBrush(Qt::black));
+        }
+      }
+    }
+
+    ui_->view_screen->setScene(scene);
+}
+
+
+void MainWindow::stopTimerCave() {
+  timer_->stop();
+  ui_->btn_cave_step->setEnabled(true);
+}
+
+
+bool MainWindow::makeStepCave() {
+    size_t birth_limit = ui_->spin_cave_birth_limit->value();
+    size_t death_limit = ui_->spin_cave_death_limit->value();
+    bool is_changed = adapter_.evolveCave(birth_limit, death_limit);
+    return is_changed;
+}
+
 
 MainWindow::~MainWindow() { delete ui_; }
 
