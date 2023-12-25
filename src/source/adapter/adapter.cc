@@ -43,14 +43,33 @@ void Adapter::saveMazeFile(const std::vector<std::vector<Cell>>& maze,
 }
 
 
-// std::vector<std::vector<bool>> Adapter::loadCaveFromFile(const std::string& filename) const {
-//   try {
-//     return MatrixFileHandler::load(filename);
-//   } catch (const std::invalid_argument& e) {
-//     std::cout << e.what();
-//   }
-//   return std::vector<std::vector<bool>>{};
-// }
+const std::vector<std::vector<bool>>& Adapter::getCaveGrid() const {
+  return cellular_automaton_.getCave().getGrid();
+}
+    
+bool Adapter::loadCaveFromFile(const std::string& filename) const {
+  try {
+    cellular_automaton_.getCave().setGrid(MatrixFileHandler::load(filename));
+  } catch (const std::invalid_argument& e) {
+    std::cout << e.what();
+    return false;
+  }
+
+  return true;
+}
+
+void Adapter::saveCaveToFile(const std::string& filename) const {
+  MatrixFileHandler::save(getCaveGrid(), filename);
+}
+
+bool Adapter::evolveCave(size_t birth_limit, size_t death_limit) {
+  return cellular_automaton_.evolve(birth_limit, death_limit);
+}
+
+void Adapter::generateCave(size_t rows, size_t cols, int probability_birth) {
+  cellular_automaton_.getCave().setGrid(GridCaveGenerator().generateGrid(rows, cols, probability_birth));
+}
+
 
 
 }  // namespace s21

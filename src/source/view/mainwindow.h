@@ -42,10 +42,6 @@ public:
     void exportMazeFile();
     void generateMaze();
 
-    // void importCaveFile();
-    // void exportCaveFile();
-//     void generateCave();
-
     void drawCave();
     bool makeStepCave();
     void stopTimerCave();
@@ -58,8 +54,6 @@ public slots:
     void handleStepEvolutionCave();
     void handleAutoEvolutionCave();
     void handleTimerEvolutionCave();
-    // void autoEvolveCave();
-    // void updateTimeoutTimer();
 
 private:
     s21::Adapter adapter_;

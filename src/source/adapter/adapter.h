@@ -22,34 +22,11 @@ class Adapter {
     std::vector<std::vector<Cell>> loadMazeFromFile(std::string filename) const;
     void saveMazeFile(const std::vector<std::vector<Cell>>& maze, const std::string& filename) const;
 
-    const std::vector<std::vector<bool>>& getCaveGrid() const {
-        return cellular_automaton_.getCave().getGrid();
-    }
-    
-    bool loadCaveFromFile(const std::string& filename) const {
-        try {
-            cellular_automaton_.getCave().setGrid(MatrixFileHandler::load(filename));
-        } catch (const std::invalid_argument& e) {
-            std::cout << e.what();
-            return false;
-        }
-
-        return true;
-    }
-
-    void saveCaveToFile(const std::string& filename) const {
-        MatrixFileHandler::save(getCaveGrid(), filename);
-    }
-
-    bool evolveCave(size_t birth_limit, size_t death_limit) {
-        return cellular_automaton_.evolve(birth_limit, death_limit);
-    }
-
-    void generateCave(size_t rows, size_t cols, int probability_birth) {
-        cellular_automaton_.getCave().setGrid(GridCaveGenerator().generateGrid(rows, cols, probability_birth));
-    }
-
-
+    const std::vector<std::vector<bool>>& getCaveGrid() const;
+    bool loadCaveFromFile(const std::string& filename) const;
+    void saveCaveToFile(const std::string& filename) const;
+    bool evolveCave(size_t birth_limit, size_t death_limit);
+    void generateCave(size_t rows, size_t cols, int probability_birth);
 
 private:
     CellularAutomaton& cellular_automaton_;
