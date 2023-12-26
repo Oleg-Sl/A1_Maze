@@ -17,8 +17,8 @@ Cave::Cave(const Grid &matrix) : rows_(matrix.size()), cols_(matrix.size() == 0 
 }
 
 
-Cave::Cave(const Cave &other) : rows_(other.rows_), cols_(other.cols_), grid_(other.grid_) {
-}
+// Cave::Cave(const Cave &other) : rows_(other.rows_), cols_(other.cols_), grid_(other.grid_) {
+// }
 
 
 size_t Cave::getRows() const {
@@ -38,9 +38,19 @@ bool Cave::isAlive(size_t row, size_t col) const {
     return grid_[row][col];
 }
 
+
+void Cave::setAlive(size_t row, size_t col, bool alive) {
+    if (row >= rows_ || col >= cols_) {
+        throw std::out_of_range("Index out of range");
+    }
+    grid_[row][col] = alive;
+}
+
+
 const Cave::Grid& Cave::getGrid() const {
     return grid_;
 }
+
 
 void Cave::setGrid(Grid &grid) {
     grid_ = grid;
@@ -52,13 +62,6 @@ void Cave::setGrid(Grid &&grid) {
     rows_ = grid.size();
     cols_ = grid.size() == 0 ? 0 : grid[0].size();
     grid_ = std::move(grid);    
-}
-
-void Cave::setAlive(size_t row, size_t col, bool alive) {
-    if (row >= rows_ || col >= cols_) {
-        throw std::out_of_range("Index out of range");
-    }
-    grid_[row][col] = alive;
 }
 
 size_t Cave::get_number_living_neighbors(size_t row, size_t col) {

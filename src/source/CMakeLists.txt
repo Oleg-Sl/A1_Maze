@@ -1,8 +1,10 @@
 project(Maze)
 
-find_package(Qt6 COMPONENTS Widgets REQUIRED)
+
 if (NOT Qt6_FOUND)
     find_package(Qt5 COMPONENTS Widgets REQUIRED)
+else()
+    find_package(Qt6 COMPONENTS Widgets REQUIRED)
 endif()
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -17,6 +19,7 @@ add_executable(${PROJECT_NAME}
     main.cc
     ${MODEL_SOURCES}
     ${MODEL_HEADERS}
+    ${CAVE_SOURCES}
     ${COMMON_SOURCES}
     ${COMMON_HEADERS}
     ${VIEW_SOURCES}

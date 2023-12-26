@@ -15,7 +15,7 @@ public:
     Cave();
     Cave(size_t rows, size_t cols);
     Cave(const Grid &matrix);
-    Cave(const Cave &other);
+    // Cave(const Cave &other);
 
     size_t getRows() const;
     size_t getCols() const;
