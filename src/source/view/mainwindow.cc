@@ -22,7 +22,8 @@ MainWindow::MainWindow(Adapter adapter, QWidget *parent)
   ui_->spin_start_y->setMaximum(kMaxMazeRows);
   ui_->spin_end_y->setMaximum(kMaxMazeRows);
 
-  scene_.setSceneRect(ui_->view_screen->rect().adjusted(0, 0, -2, -2));
+  scene_.setSceneRect(ui_->view_screen->rect());
+  cave_scene_.setSceneRect(ui_->view_screen->rect());
   ui_->view_screen->setScene(&scene_);
 
   ui_->spin_cave_rows->setMaximum(kMaxCaveRows);
@@ -47,7 +48,7 @@ MainWindow::MainWindow(Adapter adapter, QWidget *parent)
           &MainWindow::exportMazeFile);
 
   connect(ui_->btn_cave_import, &QPushButton::clicked, this, &MainWindow::handleImportMatrixFile);
- connect(ui_->btn_cave_export, &QPushButton::clicked, this, &MainWindow::handleExportMatrixFile);
+  connect(ui_->btn_cave_export, &QPushButton::clicked, this, &MainWindow::handleExportMatrixFile);
   connect(ui_->btn_cave_generate, &QPushButton::clicked, this, &MainWindow::handleGenerateGridCave);
   connect(ui_->btn_cave_step, &QPushButton::clicked, this, &MainWindow::handleStepEvolutionCave);
   connect(ui_->btn_cave_auto, &QPushButton::clicked, this, &MainWindow::handleAutoEvolutionCave);
@@ -191,11 +192,12 @@ void MainWindow::exportMazeFile() {
 }
 
 
-void MainWindow::handleChangeTab() {
-    stopTimerCave();
-    scene_.clear();
-//    QGraphicsScene *scene = new QGraphicsScene();
-//    ui_->view_screen->setScene(scene);
+void MainWindow::handleChangeTab(int page) {
+    if (page == kNumberPageMaze_) {
+        ui_->view_screen->setScene(&scene_);
+    } else {
+        ui_->view_screen->setScene(&cave_scene_);
+    }
 }
 
 
@@ -255,40 +257,26 @@ void MainWindow::handleTimerEvolutionCave() {
 
 
 void MainWindow::drawCave() {
-    scene_.clear();
-//    ui_->view_screen->resetTransform();
-//    QGraphicsScene *scene = new QGraphicsScene;
-//    scene->setSceneRect(ui_->view_screen->rect());
-
-    const std::vector<std::vector<bool>>& cave = adapter_.getCaveGrid();
-    QRectF scene_rect = scene_.sceneRect();
-    size_t rows = cave.size();
-    size_t cols = rows != 0 ? cave[0].size() : 0;
+    cave_scene_.clear();
+    const std::vector<std::vector<bool>>& grid = adapter_.getCaveGrid();
+    QRectF scene_rect = cave_scene_.sceneRect();
+    size_t rows = grid.size();
+    size_t cols = rows != 0 ? grid[0].size() : 0;
 
     qreal cell_height = scene_rect.height() / rows;
     qreal cell_width = scene_rect.width() / cols;
 
-//    const std::vector<std::vector<bool>>& cave = adapter_.getCaveGrid();
-//    size_t rows = cave.size();
-//    size_t cols = rows != 0 ? cave[0].size() : 0;
-//    QRectF scene_rect = scene_->sceneRect();
-//    qreal cell_height = scene_rect.height() / rows;
-//    qreal cell_width = scene_rect.width() / cols;
-
     for (size_t row = 0; row < rows; row++) {
       for (size_t col = 0; col < cols; col++) {
-        if (cave[row][col]) {
+        if (grid[row][col]) {
             qreal x = (col * cell_width);
             qreal y = (row * cell_height);
             QGraphicsRectItem *cell = new QGraphicsRectItem(x, y, cell_width, cell_height);
             cell->setBrush(QBrush(Qt::black));
-            scene_.addItem(cell);
-//            scene_->addRect(x, y, cell_width, cell_height, QPen(QBrush(Qt::black), 0), QBrush(Qt::black));
+            cave_scene_.addItem(cell);
         }
       }
     }
-
-//    ui_->view_screen->setScene(scene);
 }
 
 

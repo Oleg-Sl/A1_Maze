@@ -6,7 +6,6 @@
    <rect>
     <x>0</x>
     <y>0</y>
-
     <width>793</width>
     <height>518</height>
    </rect>
@@ -46,14 +45,14 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>505</width>
-          <height>505</height>
+          <width>500</width>
+          <height>500</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>505</width>
-          <height>505</height>
+          <width>500</width>
+          <height>500</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -70,7 +69,6 @@
      </layout>
     </item>
     <item row="0" column="1">
-
      <layout class="QGridLayout" name="glayout_form">
       <item row="0" column="0">
        <widget class="QTabWidget" name="tabwidget_mazetype">
@@ -433,28 +431,6 @@
        </widget>
       </item>
      </layout>
-    </item>
-    <item row="0" column="0">
-     <widget class="QGraphicsView" name="view_screen">
-      <property name="minimumSize">
-       <size>
-        <width>500</width>
-        <height>500</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>500</width>
-        <height>500</height>
-       </size>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>

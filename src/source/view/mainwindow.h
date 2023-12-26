@@ -22,6 +22,8 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
 public:
+    const int kNumberPageMaze_ = 0;
+    const int kNumberPageCave_ = 1;
     const int kCellBorderWidth = 2;
     const int kSolutionLineWidth = 2;
     const int kMaxMazeRows = 50;
@@ -36,6 +38,7 @@ public:
 
     MainWindow(Adapter adapter, QWidget *parent = nullptr);
     ~MainWindow();
+
     void addMazeOnScene(QGraphicsScene &scene, const std::vector<std::vector<Cell>> &maze);
     void clearSolution(QGraphicsScene &scene);
     std::vector<Point2D> generateSolutionForScene(const QGraphicsScene &scene, const std::vector<std::vector<Cell>> &maze,Point2D start, Point2D end);
@@ -52,7 +55,7 @@ public slots:
     void exportMazeFile();
     void generateMaze();
 
-    void handleChangeTab();
+    void handleChangeTab(int page);
     void handleImportMatrixFile();
     void handleExportMatrixFile();
     void handleGenerateGridCave();
@@ -63,8 +66,8 @@ public slots:
 private:
     s21::Adapter adapter_;
     std::vector<std::vector<Cell>> maze_;
-    std::vector<std::vector<bool>> cave_;
     QGraphicsScene scene_;
+    QGraphicsScene cave_scene_;
     Ui::MainWindow *ui_;
     QTimer *timer_;
 
