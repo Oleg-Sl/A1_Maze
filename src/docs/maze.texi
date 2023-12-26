@@ -1,0 +1,101 @@
+
+\input texinfo
+
+@setfilename maze.info
+
+@settitle Texinfo Example
+
+@titlepage
+
+    @title Description Maze
+
+    @author varlybot, julissam
+
+@end titlepage
+
+
+
+
+@menu
+* Introduction::    About program
+* Sections::        Main features of the program
+* Interface::       Program Interface
+* Instructions::    Instructions for Use
+@end menu
+
+
+@node Introduction
+
+@chapter Introduction
+
+The Maze program provides tools for generating, solving, and displaying perfect mazes, as well as for generating and displaying caves using a cellular automaton. The program features a graphical user interface (GUI) and is implemented in C++ using a GUI library.
+
+
+
+@node Sections
+
+@chapter Main features of the program
+
+@strong {Main features of the program:}
+@enumerate
+@item @strong {Generation of Perfect Mazes:}
+    @itemize -
+        @item A perfect maze is a maze in which there is exactly one way to reach any point from any other point.
+        @item Mazes are generated using the Eller's algorithm.
+        @item Generation of a perfect maze based on a specified dimension (number of rows and columns).
+    @end itemize
+@item @strong {Loading Mazes from a File:}
+    @itemize -
+        @item Ability to load a maze from a file following a specific format.
+    @end itemize 
+@item @strong {Displaying Maze Solutions:}
+    @itemize -
+        @item Users can specify the starting and ending points of the maze.
+        @item The program displays the maze solution as a line passing through the middle of maze cells.
+    @end itemize
+@item @strong {Generation and Display of Caves:}
+    @itemize -
+        @item Generation of caves using a cellular automaton.
+        @item Users can set the birth and death limits of cells, as well as the chance of initial cell initialization.
+        @item Displaying caves on the screen with the option for step-by-step or automatic iteration of the generation process.
+    @end itemize
+@end enumerate
+
+
+
+@node Interface
+
+@chapter Program Interface
+
+@itemize *
+    @item @strong {Maze:} Tab for generating perfect mazes.
+        @itemize -
+            @item @emph{import}: load a maze from a file.
+            @item @emph{export}: save a maze to a file.
+            @item @emph{generation}: generate a random maze (rows, cols - dimensions of the generated maze).
+            @item @emph{build path}: construct a path through the maze from the "Start point" to the "End point."
+        @end itemize
+    @item @strong {Cave:} Tab for generating and displaying caves.
+        @itemize -
+            @item @emph {import}: load a cave from a file.
+            @item @emph {export}: save a cave to a file.
+            @item @emph {generation}: generate a random cave (rows, cols - dimensions of the generated cave).
+            @item @emph {step}: perform an iteration of the cave generation algorithm.
+            @item @emph {auto}: automatically iterate the cave generation algorithm.
+        @end itemize
+@end itemize
+
+
+
+@node Instructions
+
+@chapter Instructions for Use:
+
+@enumerate
+    @item Choose the appropriate tab in the program depending on what you want to do (generate a maze, load from a file, solve a maze, generate caves).
+    @item Follow the on-screen prompts to perform the selected operation.
+    @item To exit the program, use the "Exit" button or close the application window.
+@end enumerate
+
+
+@bye
