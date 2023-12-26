@@ -4,6 +4,17 @@ DOCS_DIR = docs
 TEXI2DVI = texi2dvi
 
 
+FILES = $(wildcard source/adapter/*.h source/adapter/*.cc source/model/*.h source/model/*.cc source/model/cave/*.h source/model/cave/*.cc source/view/*.h source/view/*.cc source/common/*.h source/common/*.cc tests/*.h tests/*.cc source/*.cc)
+OS = $(shell uname -s)
+MACOS = Darwin
+
+ifeq ($(OS), $(MACOS))
+MEMORY_TEST = leaks -atExit --
+else 
+MEMORY_TEST = valgrind --trace-children=yes --leak-check=yes --track-origins=yes
+endif
+
+
 all: install
 
 install: $(BUILD_DIR)
@@ -37,6 +48,17 @@ install: $(BUILD_DIR)
 	cmake -B $(BUILD_DIR)
 	cmake --build $(BUILD_DIR) --target Maze
 	$(BUILD_DIR)/source/Maze
+
+leaks: tests
+	$(MEMORY_TEST) $(BUILD_DIR)/tests/MazeTests --gtest_filter=-*Throw.*
+
+check:
+	clang-format --style=Google -n --verbose $(FILES)
+	cppcheck --check-config --enable=all --suppress=missingIncludeSystem $(FILES)
+
+format:
+	clang-format --style=Google -i --verbose $(FILES)
+
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)

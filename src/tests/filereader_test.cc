@@ -1,10 +1,11 @@
+#include "filereader.h"
+
 #include <gtest/gtest.h>
 
 #include <cstddef>
 #include <stdexcept>
 #include <vector>
 
-#include "filereader.h"
 #include "maze.h"
 
 namespace s21 {

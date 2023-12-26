@@ -1,10 +1,11 @@
+#include "mazegenerator.h"
+
 #include <algorithm>
 #include <iostream>
 #include <numeric>
 #include <vector>
 
 #include "cell.h"
-#include "mazegenerator.h"
 
 namespace s21 {
 

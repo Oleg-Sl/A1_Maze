@@ -4,33 +4,33 @@
 #include <string>
 #include <vector>
 
+#include "../model/cave/cavefilemanager.h"
+#include "../model/cave/cavegenerator.h"
+#include "../model/cave/cellularautomaton.h"
 #include "cell.h"
 #include "point2d.h"
-#include "../model/cave/cellularautomaton.h"
-#include "../model/cave/cavegenerator.h"
-#include "../model/cave/cavefilemanager.h"
-
 
 namespace s21 {
 
 class Adapter {
  public:
-    Adapter(CellularAutomaton& cellular_automaton);
+  Adapter(CellularAutomaton& cellular_automaton);
 
-    std::vector<std::vector<Cell>> generateMaze(const int M, const int N) const;
-    std::vector<Point2D> solutionMaze(std::vector<std::vector<Cell>> maze, Point2D start, Point2D end) const;
-    std::vector<std::vector<Cell>> loadMazeFromFile(std::string filename) const;
-    void saveMazeFile(const std::vector<std::vector<Cell>>& maze, const std::string& filename) const;
+  std::vector<std::vector<Cell>> generateMaze(const int M, const int N) const;
+  std::vector<Point2D> solutionMaze(std::vector<std::vector<Cell>> maze,
+                                    Point2D start, Point2D end) const;
+  std::vector<std::vector<Cell>> loadMazeFromFile(std::string filename) const;
+  void saveMazeFile(const std::vector<std::vector<Cell>>& maze,
+                    const std::string& filename) const;
 
-    const std::vector<std::vector<bool>>& getCaveGrid() const;
-    bool loadCaveFromFile(const std::string& filename) const;
-    void saveCaveToFile(const std::string& filename) const;
-    bool evolveCave(size_t birth_limit, size_t death_limit);
-    void generateCave(size_t rows, size_t cols, int probability_birth);
+  const std::vector<std::vector<bool>>& getCaveGrid() const;
+  bool loadCaveFromFile(const std::string& filename) const;
+  void saveCaveToFile(const std::string& filename) const;
+  bool evolveCave(size_t birth_limit, size_t death_limit);
+  void generateCave(size_t rows, size_t cols, int probability_birth);
 
-private:
-    CellularAutomaton& cellular_automaton_;
-
+ private:
+  CellularAutomaton& cellular_automaton_;
 };
 
 }  // namespace s21

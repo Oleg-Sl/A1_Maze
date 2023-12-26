@@ -1,10 +1,10 @@
+#include "maze.h"
+
 #include <gtest/gtest.h>
 
 #include <cstddef>
 #include <stdexcept>
 #include <vector>
-
-#include "maze.h"
 
 namespace s21 {
 

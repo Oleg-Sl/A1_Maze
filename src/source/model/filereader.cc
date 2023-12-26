@@ -1,3 +1,5 @@
+#include "filereader.h"
+
 #include <cstddef>
 #include <fstream>
 #include <iostream>
@@ -5,7 +7,6 @@
 #include <stdexcept>
 #include <vector>
 
-#include "filereader.h"
 #include "maze.h"
 
 namespace s21 {

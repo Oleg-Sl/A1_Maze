@@ -1,6 +1,7 @@
+#include "adapter.h"
+
 #include <stdexcept>
 
-#include "adapter.h"
 #include "filereader.h"
 #include "filesaver.h"
 #include "mazegenerator.h"
@@ -8,12 +9,10 @@
 //#include "cave_file_manager.h"
 // #include "cave_tmp/cavefilemanager.h"
 
-
 namespace s21 {
 
-
-Adapter::Adapter(CellularAutomaton& cellular_automaton) : cellular_automaton_(cellular_automaton) {
-}
+Adapter::Adapter(CellularAutomaton& cellular_automaton)
+    : cellular_automaton_(cellular_automaton) {}
 
 std::vector<std::vector<Cell>> Adapter::generateMaze(const int M,
                                                      const int N) const {
@@ -42,11 +41,10 @@ void Adapter::saveMazeFile(const std::vector<std::vector<Cell>>& maze,
   FileSaver().saveMaze(maze, filename);
 }
 
-
 const std::vector<std::vector<bool>>& Adapter::getCaveGrid() const {
   return cellular_automaton_.getCave().getGrid();
 }
-    
+
 bool Adapter::loadCaveFromFile(const std::string& filename) const {
   try {
     cellular_automaton_.getCave().setGrid(MatrixFileHandler::load(filename));
@@ -67,9 +65,8 @@ bool Adapter::evolveCave(size_t birth_limit, size_t death_limit) {
 }
 
 void Adapter::generateCave(size_t rows, size_t cols, int probability_birth) {
-  cellular_automaton_.getCave().setGrid(GridCaveGenerator().generateGrid(rows, cols, probability_birth));
+  cellular_automaton_.getCave().setGrid(
+      GridCaveGenerator().generateGrid(rows, cols, probability_birth));
 }
-
-
 
 }  // namespace s21
