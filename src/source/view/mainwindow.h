@@ -26,6 +26,8 @@ public:
     const int kSolutionLineWidth = 2;
     const int kMaxMazeRows = 50;
     const int kMaxMazeCols = 50;
+    const QColor kSolutionLineColor = Qt::red;
+
     const int kMaxCaveRows = 50;
     const int kMaxCaveCols = 50;
     const int kMinCaveBirthDeathLimit = 0;
@@ -34,19 +36,22 @@ public:
 
     MainWindow(Adapter adapter, QWidget *parent = nullptr);
     ~MainWindow();
-
-    void drawMaze(QGraphicsScene &scene, const std::vector<std::vector<Cell>> &grid);
-    void draw();
-    void drawSolution();
-    void importMazeFile();
-    void exportMazeFile();
-    void generateMaze();
+    void addMazeOnScene(QGraphicsScene &scene, const std::vector<std::vector<Cell>> &maze);
+    void clearSolution(QGraphicsScene &scene);
+    std::vector<Point2D> generateSolutionForScene(const QGraphicsScene &scene, const std::vector<std::vector<Cell>> &maze,Point2D start, Point2D end);
+    void addSolutionOnScene(QGraphicsScene &scene, const std::vector<Point2D> &solution);
 
     void drawCave();
     bool makeStepCave();
     void stopTimerCave();
 
 public slots:
+    void drawMaze();
+    void drawSolution();
+    void importMazeFile();
+    void exportMazeFile();
+    void generateMaze();
+
     void handleChangeTab();
     void handleImportMatrixFile();
     void handleExportMatrixFile();
@@ -59,6 +64,7 @@ private:
     s21::Adapter adapter_;
     std::vector<std::vector<Cell>> maze_;
     std::vector<std::vector<bool>> cave_;
+    QGraphicsScene scene_;
     Ui::MainWindow *ui_;
     QTimer *timer_;
 
@@ -66,4 +72,5 @@ private:
 
 
 }  // namespace s21
+
 #endif  // __MAZE_SOURCE_VIEW_MAINWINDOW_H__

@@ -18,20 +18,13 @@ void MazeGenerator::unionSets(std::vector<size_t>& sets, size_t set1,
 void MazeGenerator::buildWalls(Maze& maze,
                                std::vector<std::vector<size_t>>& sets,
                                size_t row, size_t col) {
-  size_t rows = maze.getRows();
   size_t cols = maze.getCols();
-
-  if (row == 0) maze(row, col).up_wall = 1;
-  if (row == rows - 1) maze(row, col).down_wall = 1;
-  if (col == 0) maze(row, col).left_wall = 1;
-  if (col == cols - 1) maze(row, col).right_wall = 1;
 
   if (col < cols - 1) {
     bool sets_equal = sets[row][col] == sets[row][col + 1];
 
     if (dist_(gen_) == 1 || sets_equal) {
-      maze(row, col).right_wall = 1;
-      maze(row, col + 1).left_wall = 1;
+      maze.buildWall(row, col, Maze::WallPosition::kRight);
     } else {
       unionSets(sets[row], sets[row][col], sets[row][col + 1]);
     }
@@ -45,10 +38,7 @@ void MazeGenerator::buildWalls(Maze& maze,
   }
 
   if (dist_(gen_) == 1 && cells_without_down > 1) {
-    maze(row, col).down_wall = 1;
-    if (row < rows - 1) {
-      maze(row + 1, col).up_wall = 1;
-    }
+    maze.buildWall(row, col, Maze::WallPosition::kDown);
   }
 }
 
@@ -72,9 +62,9 @@ void MazeGenerator::genRows(Maze& maze,
     if (row < rows - 1) {
       for (size_t col = 0; col < cols; col++) {
         if (maze(row, col).down_wall) {
-          sets[row + 1][col] = (row + 1) * cols + col; 
+          sets[row + 1][col] = (row + 1) * cols + col;
         } else {
-          sets[row + 1][col] = sets[row][col];  
+          sets[row + 1][col] = sets[row][col];
         }
       }
     }
@@ -86,10 +76,9 @@ void MazeGenerator::genLastRow(Maze& maze,
   size_t last_row = maze.getRows() - 1;
 
   for (size_t col = 0; col < maze.getCols() - 1; col++) {
-    maze(last_row, col).down_wall = 1;
+    maze.buildWall(last_row, col, Maze::WallPosition::kDown);
     if (sets[last_row][col] != sets[last_row][col + 1]) {
-      maze(last_row, col).right_wall = 0;
-      maze(last_row, col + 1).left_wall = 0;
+      maze.removeWall(last_row, col, Maze::WallPosition::kRight);
     }
 
     unionSets(sets[last_row], sets[last_row][col], sets[last_row][col + 1]);

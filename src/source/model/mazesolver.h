@@ -13,6 +13,7 @@ class MazeSolver {
                                 Point2D end) const;
 
  private:
+  bool validateParams(const Maze& maze, Point2D start, Point2D end) const;
   std::vector<Point2D> getMoves(const Cell& cell, const Point2D& coords) const;
   std::vector<std::vector<int>> generateWave(const Maze& maze, Point2D start,
                                              Point2D end) const;

@@ -22,6 +22,7 @@ class QGraphicsCellItem : public QGraphicsItem {
   void setBorderRight(bool show);
   void setFilled(bool filled);
   void setBorderWidth(int width);
+  void setColor(QColor color);
 
  private:
   qreal x1_{};
@@ -36,6 +37,8 @@ class QGraphicsCellItem : public QGraphicsItem {
   bool down_border_{};
   bool left_border_{};
   bool right_border_{};
+
+  QColor color_{Qt::black};
 };
 
 }  // namespace s21

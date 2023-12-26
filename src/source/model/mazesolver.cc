@@ -45,7 +45,7 @@ std::vector<std::vector<int>> MazeSolver::generateWave(const Maze& maze,
     for (size_t row = 0; row < rows; ++row) {
       for (size_t col = 0; col < cols; ++col) {
         if (grid_paths[row][col] == move_counter) {
-          for (Point2D move :
+          for (Point2D& move :
                getMoves(maze(row, col),
                         {static_cast<int>(col), static_cast<int>(row)})) {
             int x = move.x;
@@ -79,7 +79,7 @@ std::vector<Point2D> MazeSolver::reconstructPath(
     path.push_back({x, y});
     move_counter--;
 
-    for (Point2D move : getMoves(maze(y, x), {x, y})) {
+    for (Point2D& move : getMoves(maze(y, x), {x, y})) {
       if (grid_paths[move.y][move.x] == move_counter) {
         x = move.x;
         y = move.y;
@@ -91,8 +91,22 @@ std::vector<Point2D> MazeSolver::reconstructPath(
   return path;
 }
 
+bool MazeSolver::validateParams(const Maze& maze, Point2D start,
+                                Point2D end) const {
+  int cols = static_cast<int>(maze.getCols());
+  int rows = static_cast<int>(maze.getRows());
+
+  return cols > 0 && rows > 0 && start.x >= 0 && start.y >= 0 && end.x >= 0 &&
+         end.y >= 0 && start.x < cols && end.x < cols && start.y < rows &&
+         end.y < rows;
+}
+
 std::vector<Point2D> MazeSolver::findPath(const Maze& maze, Point2D start,
                                           Point2D end) const {
+  if (!validateParams(maze, start, end)) {
+    return std::vector<Point2D>();
+  }
+
   std::vector<std::vector<int>> grid_paths = generateWave(maze, start, end);
   return reconstructPath(maze, grid_paths, end);
 }
