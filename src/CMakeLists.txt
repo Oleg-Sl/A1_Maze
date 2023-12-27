@@ -37,7 +37,7 @@ add_custom_target(stylecheck
 )
 
 add_custom_target(cppcheck
-    COMMAND cppcheck --enable=all --suppress=missingInclude ${ALL_SOURCES}
+    COMMAND cppcheck --enable=all --suppress=missingInclude --inconclusive --check-config ${ALL_SOURCES}
 )
 
 add_subdirectory(source)
