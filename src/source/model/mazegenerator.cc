@@ -1,3 +1,4 @@
+
 #include "mazegenerator.h"
 
 #include <algorithm>

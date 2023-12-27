@@ -37,7 +37,7 @@ TEST(CaveFileManager, NotEmptyFile) {
   }
 }
 
-TEST(CaveFileManager, FileNotExist) {
+TEST(CaveFileManager, ThrowFileNotExist) {
   std::vector<std::vector<bool>> grid = {
       {true, false, false}, {false, true, false}, {false, true, true}};
 

@@ -80,16 +80,9 @@ TEST(CaveGetterSetter, GetRowsAndCols) {
 
 TEST(CaveGetterSetter, GetAndSetAlive) {
   {
-    Cave cave(0, 0);
-    ASSERT_THROW(cave.isAlive(0, 0), std::out_of_range);
-  }
-
-  {
     Cave cave(4, 7);
     ASSERT_EQ(cave.isAlive(0, 0), false);
     ASSERT_EQ(cave.isAlive(3, 6), false);
-    ASSERT_THROW(cave.isAlive(4, 6), std::out_of_range);
-    ASSERT_THROW(cave.isAlive(3, 7), std::out_of_range);
   }
 
   {
@@ -106,6 +99,21 @@ TEST(CaveGetterSetter, GetAndSetAlive) {
     ASSERT_EQ(cave.isAlive(10, 10), false);
     cave.setAlive(10, 10, true);
     ASSERT_EQ(cave.isAlive(10, 10), true);
+  }
+}
+
+TEST(CaveGetterSetter, ThrowGetAndSetAlive) {
+  {
+    Cave cave(0, 0);
+    ASSERT_THROW(cave.isAlive(0, 0), std::out_of_range);
+  }
+
+  {
+    Cave cave(4, 7);
+    ASSERT_EQ(cave.isAlive(0, 0), false);
+    ASSERT_EQ(cave.isAlive(3, 6), false);
+    ASSERT_THROW(cave.isAlive(4, 6), std::out_of_range);
+    ASSERT_THROW(cave.isAlive(3, 7), std::out_of_range);
   }
 }
 
@@ -173,18 +181,12 @@ TEST(CaveGetterSetter, SetGrid) {
 
 TEST(CaveFunction, GetNumberLivingNeighbors) {
   {
-    Cave cave;
-    ASSERT_THROW(cave.get_number_living_neighbors(0, 0), std::out_of_range);
-  }
-
-  {
     Cave cave(11, 11);
     ASSERT_EQ(cave.get_number_living_neighbors(0, 0), 5);
     ASSERT_EQ(cave.get_number_living_neighbors(5, 5), 0);
     ASSERT_EQ(cave.get_number_living_neighbors(10, 10), 5);
     ASSERT_EQ(cave.get_number_living_neighbors(10, 5), 3);
     ASSERT_EQ(cave.get_number_living_neighbors(5, 10), 3);
-    ASSERT_THROW(cave.get_number_living_neighbors(11, 11), std::out_of_range);
   }
 
   {
@@ -199,6 +201,27 @@ TEST(CaveFunction, GetNumberLivingNeighbors) {
     ASSERT_EQ(cave.get_number_living_neighbors(3, 1), 4);
     ASSERT_EQ(cave.get_number_living_neighbors(4, 1), 5);
     ASSERT_EQ(cave.get_number_living_neighbors(4, 2), 5);
+  }
+}
+
+TEST(CaveFunction, ThrowGetNumberLivingNeighbors) {
+  {
+    Cave cave;
+    ASSERT_THROW(cave.get_number_living_neighbors(0, 0), std::out_of_range);
+  }
+
+  {
+    Cave cave(11, 11);
+    ASSERT_THROW(cave.get_number_living_neighbors(11, 11), std::out_of_range);
+  }
+
+  {
+    std::vector<std::vector<bool>> grid = {{true, true, false},
+                                           {true, true, false},
+                                           {true, false, true},
+                                           {false, false, false},
+                                           {true, false, true}};
+    Cave cave(grid);
     ASSERT_THROW(cave.get_number_living_neighbors(5, 3), std::out_of_range);
   }
 }

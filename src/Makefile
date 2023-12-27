@@ -50,7 +50,7 @@ install: $(BUILD_DIR)
 	$(BUILD_DIR)/source/Maze
 
 leaks: tests
-	$(MEMORY_TEST) $(BUILD_DIR)/tests/MazeTests --gtest_filter=-*Throw.*
+	$(MEMORY_TEST) $(BUILD_DIR)/tests/MazeTests --gtest_filter=-*.Throw*
 
 check:
 	clang-format --style=Google -n --verbose $(FILES)
