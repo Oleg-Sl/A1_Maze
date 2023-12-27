@@ -13,10 +13,6 @@ Cave::Cave(const Grid &matrix)
       cols_(matrix.size() == 0 ? 0 : matrix[0].size()),
       grid_(matrix) {}
 
-// Cave::Cave(const Cave &other) : rows_(other.rows_), cols_(other.cols_),
-// grid_(other.grid_) {
-// }
-
 size_t Cave::getRows() const { return rows_; }
 
 size_t Cave::getCols() const { return cols_; }

@@ -1,6 +1,7 @@
+#include <QBrush>
+
 #include "qgraphicscellitem.h"
 
-#include <QBrush>
 
 namespace s21 {
 

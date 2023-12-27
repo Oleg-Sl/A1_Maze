@@ -10,7 +10,7 @@ namespace s21 {
 class MatrixFileHandler {
  public:
   static std::vector<std::vector<bool>> load(const std::string &filename);
-  static void save(const std::vector<std::vector<bool>> &grid,
+  static void save(const std::vector<std::vector<bool>> &matrix,
                    const std::string &filename);
 };
 

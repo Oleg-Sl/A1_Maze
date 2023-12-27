@@ -1,6 +1,7 @@
-#include "maze.h"
 
 #include <iostream>
+
+#include "maze.h"
 
 namespace s21 {
 

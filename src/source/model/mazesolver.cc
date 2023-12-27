@@ -1,6 +1,6 @@
-#include "mazesolver.h"
-
 #include <iostream>
+
+#include "mazesolver.h"
 
 namespace s21 {
 

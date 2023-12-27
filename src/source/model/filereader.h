@@ -1,6 +1,9 @@
 #ifndef __MAZE_SOURCE_MODEL_FILEREADER_H__
 #define __MAZE_SOURCE_MODEL_FILEREADER_H__
 
+#include <vector>
+#include <string>
+
 #include "cell.h"
 
 namespace s21 {

@@ -205,6 +205,7 @@ void MainWindow::handleChangeTab(int page) {
 }
 
 void MainWindow::handleImportMatrixFile() {
+  stopTimerCave();
   std::string filename =
       QFileDialog::getOpenFileName(this, "Open File", "./", tr("*.txt"))
           .toStdString();
@@ -227,6 +228,7 @@ void MainWindow::handleExportMatrixFile() {
 }
 
 void MainWindow::handleGenerateGridCave() {
+  stopTimerCave();
   adapter_.generateCave(ui_->spin_cave_rows->value(),
                         ui_->spin_cave_cols->value(),
                         ui_->spin_cave_probability_birth->value());
@@ -283,7 +285,9 @@ void MainWindow::drawCave() {
 }
 
 void MainWindow::stopTimerCave() {
-  timer_->stop();
+  if (timer_ != nullptr && timer_->isActive()) {
+    timer_->stop();
+  }
   ui_->btn_cave_step->setEnabled(true);
 }
 
