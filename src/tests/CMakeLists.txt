@@ -6,7 +6,7 @@ include(GoogleTest)
 
 file(GLOB TEST_SOURCES "*.cc")
 
-add_executable(${PROJECT_NAME} ${MODEL_SOURCES} ${TEST_SOURCES} ${COMMON_HEADERS})
+add_executable(${PROJECT_NAME} ${MODEL_SOURCES} ${TEST_SOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${HEADER_DIRS})
 
