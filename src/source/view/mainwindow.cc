@@ -1,10 +1,8 @@
 #include "mainwindow.h"
 
-#include <QDebug>
 #include <QFileDialog>
 #include <QGraphicsRectItem>
 #include <QString>
-#include <QTimer>
 
 #include "./ui_mainwindow.h"
 #include "qgraphicscellitem.h"
@@ -15,16 +13,21 @@ MainWindow::MainWindow(Adapter adapter, QWidget *parent)
     : QMainWindow(parent), adapter_(adapter), ui_(new Ui::MainWindow) {
   ui_->setupUi(this);
 
+  setConnections();
+  initializeSpins();
+
+  scene_.setSceneRect(ui_->view_screen->rect());
+  cave_scene_.setSceneRect(ui_->view_screen->rect());
+  ui_->view_screen->setScene(&scene_);
+}
+
+void MainWindow::initializeSpins() {
   ui_->spin_cols->setMaximum(kMaxMazeCols);
   ui_->spin_rows->setMaximum(kMaxMazeRows);
   ui_->spin_start_x->setMaximum(kMaxMazeCols);
   ui_->spin_end_x->setMaximum(kMaxMazeCols);
   ui_->spin_start_y->setMaximum(kMaxMazeRows);
   ui_->spin_end_y->setMaximum(kMaxMazeRows);
-
-  scene_.setSceneRect(ui_->view_screen->rect());
-  cave_scene_.setSceneRect(ui_->view_screen->rect());
-  ui_->view_screen->setScene(&scene_);
 
   ui_->spin_cave_rows->setMaximum(kMaxCaveRows);
   ui_->spin_cave_cols->setMaximum(kMaxCaveCols);
@@ -33,7 +36,9 @@ MainWindow::MainWindow(Adapter adapter, QWidget *parent)
   ui_->spin_cave_death_limit->setMinimum(kMinCaveBirthDeathLimit);
   ui_->spin_cave_death_limit->setMaximum(kMaxCaveBirthDeathLimit);
   ui_->spin_cave_interval->setMinimum(kMinTimeout);
+}
 
+void MainWindow::setConnections() {
   connect(ui_->button_generate, &QPushButton::clicked, this,
           &MainWindow::generateMaze);
   connect(ui_->button_generate, &QPushButton::clicked, this,
@@ -61,8 +66,7 @@ MainWindow::MainWindow(Adapter adapter, QWidget *parent)
   connect(ui_->tabwidget_mazetype, &QTabWidget::currentChanged, this,
           &MainWindow::handleChangeTab);
 
-  timer_ = new QTimer(this);
-  connect(timer_, &QTimer::timeout, this,
+  connect(&timer_, &QTimer::timeout, this,
           &MainWindow::handleTimerEvolutionCave);
 }
 
@@ -210,7 +214,6 @@ void MainWindow::handleImportMatrixFile() {
       QFileDialog::getOpenFileName(this, "Open File", "./", tr("*.txt"))
           .toStdString();
   if (filename.empty()) {
-    qDebug() << "File not found";
     return;
   }
   adapter_.loadCaveFromFile(filename);
@@ -241,16 +244,16 @@ void MainWindow::handleStepEvolutionCave() {
 }
 
 void MainWindow::handleAutoEvolutionCave() {
-  if (timer_->isActive()) {
+  if (timer_.isActive()) {
     stopTimerCave();
     return;
   }
-  timer_->start(ui_->spin_cave_interval->value());
+  timer_.start(ui_->spin_cave_interval->value());
   ui_->btn_cave_step->setEnabled(false);
 }
 
 void MainWindow::handleTimerEvolutionCave() {
-  timer_->start(ui_->spin_cave_interval->value());
+  timer_.start(ui_->spin_cave_interval->value());
 
   if (!makeStepCave()) {
     stopTimerCave();
@@ -285,8 +288,8 @@ void MainWindow::drawCave() {
 }
 
 void MainWindow::stopTimerCave() {
-  if (timer_ != nullptr && timer_->isActive()) {
-    timer_->stop();
+  if (timer_.isActive()) {
+    timer_.stop();
   }
   ui_->btn_cave_step->setEnabled(true);
 }

@@ -3,6 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QMainWindow>
+#include <QTimer>
 #include <vector>
 
 #include "adapter/adapter.h"
@@ -37,6 +38,8 @@ class MainWindow : public QMainWindow {
   explicit MainWindow(Adapter adapter, QWidget *parent = nullptr);
   ~MainWindow();
 
+  void setConnections();
+  void initializeSpins();
   void addMazeOnScene(QGraphicsScene &scene,
                       const std::vector<std::vector<Cell>> &maze);
   void clearSolution(QGraphicsScene &scene);
@@ -71,7 +74,7 @@ class MainWindow : public QMainWindow {
   QGraphicsScene scene_;
   QGraphicsScene cave_scene_;
   Ui::MainWindow *ui_;
-  QTimer *timer_;
+  QTimer timer_;
 };
 
 }  // namespace s21
