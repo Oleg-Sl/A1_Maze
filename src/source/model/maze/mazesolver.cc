@@ -1,6 +1,7 @@
 #include "mazesolver.h"
 
 #include <iostream>
+#include <queue>
 
 namespace s21 {
 
@@ -26,44 +27,44 @@ std::vector<Point2D> MazeSolver::getMoves(const Cell& cell,
   return moves;
 }
 
-std::vector<std::vector<int>> MazeSolver::generateWave(const Maze& maze,
-                                                       Point2D start,
-                                                       Point2D end) const {
+std::vector<std::vector<int>> MazeSolver::generateWave(
+    const Maze& maze, Point2D start_point, Point2D end_point) const {
   size_t rows = maze.getRows();
   size_t cols = maze.getCols();
+  int kNotVisited = -1;
 
-  std::vector<std::vector<int>> grid_paths(rows, std::vector<int>(cols, -1));
+  std::vector<std::vector<int>> wave_grid(rows,
+                                          std::vector<int>(cols, kNotVisited));
+  std::queue<Point2D> wave_generation_points;
 
-  grid_paths[start.y][start.x] = 0;
+  wave_grid[start_point.y][start_point.x] = 0;
+  wave_generation_points.push(start_point);
 
-  int move_counter = 0;
+  int wave_distance = 0;
 
-  bool stop = false;
-  while (!stop && grid_paths[end.y][end.x] == -1) {
-    stop = true;
+  while (!wave_generation_points.empty() &&
+         wave_grid[end_point.y][end_point.x] == kNotVisited) {
+    size_t curr_size = wave_generation_points.size();
+    for (size_t i = 0; i < curr_size; i++) {
+      auto curr_point = wave_generation_points.front();
+      for (const Point2D& move :
+           getMoves(maze(curr_point.y, curr_point.x), curr_point)) {
+        int x = move.x;
+        int y = move.y;
 
-    for (size_t row = 0; row < rows; ++row) {
-      for (size_t col = 0; col < cols; ++col) {
-        if (grid_paths[row][col] == move_counter) {
-          for (Point2D& move :
-               getMoves(maze(row, col),
-                        {static_cast<int>(col), static_cast<int>(row)})) {
-            int x = move.x;
-            int y = move.y;
-
-            if (y >= 0 && y < static_cast<int>(rows) && x >= 0 &&
-                x < static_cast<int>(cols) && grid_paths[y][x] == -1) {
-              stop = false;
-              grid_paths[y][x] = move_counter + 1;
-            }
-          }
+        if (y >= 0 && y < static_cast<int>(rows) && x >= 0 &&
+            x < static_cast<int>(cols) && wave_grid[y][x] == kNotVisited) {
+          wave_grid[y][x] = wave_distance + 1;
+          wave_generation_points.push({x, y});
         }
       }
+
+      wave_generation_points.pop();
     }
-    move_counter++;
+    wave_distance++;
   }
 
-  return grid_paths;
+  return wave_grid;
 }
 
 std::vector<Point2D> MazeSolver::reconstructPath(

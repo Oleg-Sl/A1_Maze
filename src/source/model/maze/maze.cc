@@ -78,16 +78,16 @@ void Maze::removeWall(size_t row, size_t col, WallPosition pos) {
 
   if (pos == WallPosition::kUp && row != 0) {
     grid_[row][col].up_wall = 0;
-    if (row != 0) grid_[row - 1][col].down_wall = 0;
+    grid_[row - 1][col].down_wall = 0;
   } else if (pos == WallPosition::kLeft && col != 0) {
     grid_[row][col].left_wall = 0;
-    if (col != 0) grid_[row][col - 1].right_wall = 0;
+    grid_[row][col - 1].right_wall = 0;
   } else if (pos == WallPosition::kRight && col != cols_ - 1) {
     grid_[row][col].right_wall = 0;
-    if (col != grid_[row].size() - 1) grid_[row][col + 1].left_wall = 0;
+    grid_[row][col + 1].left_wall = 0;
   } else if (pos == WallPosition::kDown && row != rows_ - 1) {
     grid_[row][col].down_wall = 0;
-    if (row != grid_.size() - 1) grid_[row + 1][col].up_wall = 0;
+    grid_[row + 1][col].up_wall = 0;
   }
 }
 

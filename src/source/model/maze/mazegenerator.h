@@ -8,10 +8,11 @@ namespace s21 {
 
 class MazeGenerator : BaseMazeGenerator {
  public:
-  Maze generateMaze(size_t rows, size_t cols);
+  Maze generateMaze(size_t rows, size_t cols) override;
 
  private:
-  void initializeFirstRow(Maze& maze, std::vector<std::vector<size_t>>& sets);
+  void initializeFirstRow(const Maze& maze,
+                          std::vector<std::vector<size_t>>& sets);
   void genRows(Maze& maze, std::vector<std::vector<size_t>>& sets);
   void genLastRow(Maze& maze, std::vector<std::vector<size_t>>& sets);
   void unionSets(std::vector<size_t>& sets, size_t set1, size_t set2);

@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "maze.h"
 #include "common/point2d.h"
+#include "maze.h"
 
 namespace s21 {
 class MazeSolver {

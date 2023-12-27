@@ -15,7 +15,7 @@ class Maze {
 
   Maze();
   Maze(size_t rows, size_t cols);
-  Maze(const std::vector<std::vector<Cell>> &grid);
+  explicit Maze(const std::vector<std::vector<Cell>> &grid);
 
   Cell operator()(size_t row, size_t col) const;
 

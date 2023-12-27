@@ -2,8 +2,7 @@
 
 #include <stdexcept>
 
-#include "model/maze/filereader.h"
-#include "model/maze/filesaver.h"
+#include "model/maze/mazefilemanager.h"
 #include "model/maze/mazegenerator.h"
 #include "model/maze/mazesolver.h"
 
@@ -19,7 +18,7 @@ std::vector<std::vector<Cell>> Adapter::generateMaze(const int M,
 
 std::vector<Point2D> Adapter::solutionMaze(std::vector<std::vector<Cell>> maze,
                                            Point2D start, Point2D end) const {
-  return MazeSolver().findPath(maze, start, end);
+  return MazeSolver().findPath(Maze(maze), start, end);
 }
 
 std::vector<std::vector<Cell>> Adapter::loadMazeFromFile(
@@ -27,7 +26,7 @@ std::vector<std::vector<Cell>> Adapter::loadMazeFromFile(
   std::vector<std::vector<Cell>> maze;
 
   try {
-    maze = FileReader().loadMaze(filename);
+    maze = MazeFileManager::loadMaze(filename);
   } catch (std::invalid_argument& e) {
     maze.clear();
   }
@@ -36,7 +35,7 @@ std::vector<std::vector<Cell>> Adapter::loadMazeFromFile(
 
 void Adapter::saveMazeFile(const std::vector<std::vector<Cell>>& maze,
                            const std::string& filename) const {
-  FileSaver().saveMaze(maze, filename);
+  MazeFileManager::saveMaze(Maze(maze), filename);
 }
 
 const std::vector<std::vector<bool>>& Adapter::getCaveGrid() const {
