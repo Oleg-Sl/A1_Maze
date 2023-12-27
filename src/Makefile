@@ -44,21 +44,15 @@ tests: $(BUILD_DIR)
 	cmake --build $(BUILD_DIR) --target MazeTests
 	$(BUILD_DIR)/tests/MazeTests
 
-install: $(BUILD_DIR)
-	cmake -B $(BUILD_DIR)
-	cmake --build $(BUILD_DIR) --target Maze
-	$(BUILD_DIR)/source/Maze
-
 leaks: tests
 	$(MEMORY_TEST) $(BUILD_DIR)/tests/MazeTests --gtest_filter=-*.Throw*
 
 check:
 	clang-format --style=Google -n --verbose $(FILES)
-	cppcheck --check-config --enable=all --suppress=missingIncludeSystem $(FILES)
+	cppcheck --enable=all --suppress=missingInclude $(FILES)
 
 format:
 	clang-format --style=Google -i --verbose $(FILES)
-
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)

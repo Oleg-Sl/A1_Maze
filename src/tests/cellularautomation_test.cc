@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include "../source/model/cave/cave.h"
-#include "../source/model/cave/cellularautomaton.h"
+#include "model/cave/cave.h"
+#include "model/cave/cellularautomaton.h"
 
 namespace s21 {
 

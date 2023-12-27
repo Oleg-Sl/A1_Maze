@@ -1,11 +1,11 @@
-#ifndef __MAZE_SOURCE_MODEL_MAZE_H__
-#define __MAZE_SOURCE_MODEL_MAZE_H__
+#ifndef __MAZE_SOURCE_MODEL_MAZE_MAZE_H__
+#define __MAZE_SOURCE_MODEL_MAZE_MAZE_H__
 
 #include <cstddef>
 #include <random>
 #include <vector>
 
-#include "cell.h"
+#include "common/cell.h"
 
 namespace s21 {
 
@@ -39,4 +39,4 @@ class Maze {
 
 }  // namespace s21
 
-#endif  // __MAZE_SOURCE_MODEL_MAZE_H__
+#endif  // __MAZE_SOURCE_MODEL_MAZE_MAZE_H__

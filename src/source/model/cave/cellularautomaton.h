@@ -7,7 +7,7 @@ namespace s21 {
 
 class CellularAutomaton {
  public:
-  CellularAutomaton(Cave &cave);
+  explicit CellularAutomaton(Cave &cave);
 
   bool evolve(size_t birth_limit = 3, size_t death_limit = 4);
   Cave &getCave() const;

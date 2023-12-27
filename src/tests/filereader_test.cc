@@ -1,4 +1,4 @@
-#include "filereader.h"
+#include "model/maze/filereader.h"
 
 #include <gtest/gtest.h>
 
@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <vector>
 
-#include "maze.h"
+#include "model/maze/maze.h"
 
 namespace s21 {
 

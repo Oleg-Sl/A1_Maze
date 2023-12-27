@@ -2,12 +2,10 @@
 
 #include <stdexcept>
 
-#include "filereader.h"
-#include "filesaver.h"
-#include "mazegenerator.h"
-#include "mazesolver.h"
-//#include "cave_file_manager.h"
-// #include "cave_tmp/cavefilemanager.h"
+#include "model/maze/filereader.h"
+#include "model/maze/filesaver.h"
+#include "model/maze/mazegenerator.h"
+#include "model/maze/mazesolver.h"
 
 namespace s21 {
 

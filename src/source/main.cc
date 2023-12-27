@@ -1,9 +1,9 @@
 #include <QApplication>
 
-#include "./model/cave/cave.h"
-#include "./model/cave/cellularautomaton.h"
-#include "adapter.h"
-#include "mainwindow.h"
+#include "adapter/adapter.h"
+#include "model/cave/cave.h"
+#include "model/cave/cellularautomaton.h"
+#include "view/mainwindow.h"
 
 int main(int argc, char *argv[]) {
   QApplication a(argc, argv);

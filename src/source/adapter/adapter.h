@@ -4,17 +4,17 @@
 #include <string>
 #include <vector>
 
-#include "../model/cave/cavefilemanager.h"
-#include "../model/cave/cavegenerator.h"
-#include "../model/cave/cellularautomaton.h"
-#include "cell.h"
-#include "point2d.h"
+#include "common/cell.h"
+#include "common/point2d.h"
+#include "model/cave/cavefilemanager.h"
+#include "model/cave/cavegenerator.h"
+#include "model/cave/cellularautomaton.h"
 
 namespace s21 {
 
 class Adapter {
  public:
-  Adapter(CellularAutomaton& cellular_automaton);
+  explicit Adapter(CellularAutomaton& cellular_automaton);
 
   std::vector<std::vector<Cell>> generateMaze(const int M, const int N) const;
   std::vector<Point2D> solutionMaze(std::vector<std::vector<Cell>> maze,

@@ -18,14 +18,10 @@ set(CMAKE_AUTORCC ON)
 add_executable(${PROJECT_NAME}
     main.cc
     ${MODEL_SOURCES}
-    ${MODEL_HEADERS}
     ${CAVE_SOURCES}
     ${COMMON_SOURCES}
-    ${COMMON_HEADERS}
     ${VIEW_SOURCES}
-    ${VIEW_HEADERS}
     ${ADAPTER_SOURCES}
-    ${ADAPTER_HEADERS}
     ${VIEW_UIS}
 )
 

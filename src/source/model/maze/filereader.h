@@ -1,10 +1,10 @@
-#ifndef __MAZE_SOURCE_MODEL_FILEREADER_H__
-#define __MAZE_SOURCE_MODEL_FILEREADER_H__
+#ifndef __MAZE_SOURCE_MODEL_MAZE_FILEREADER_H__
+#define __MAZE_SOURCE_MODEL_MAZE_FILEREADER_H__
 
 #include <string>
 #include <vector>
 
-#include "cell.h"
+#include "common/cell.h"
 
 namespace s21 {
 
@@ -15,4 +15,4 @@ class FileReader {
 
 }  // namespace s21
 
-#endif  // __MAZE_SOURCE_MODEL_FILEREADER_H__
+#endif  // __MAZE_SOURCE_MODEL_MAZE_FILEREADER_H__

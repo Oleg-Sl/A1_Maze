@@ -5,8 +5,8 @@
 #include <QMainWindow>
 #include <vector>
 
-#include "adapter.h"
-#include "cell.h"
+#include "adapter/adapter.h"
+#include "common/cell.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -34,7 +34,7 @@ class MainWindow : public QMainWindow {
   const int kMaxCaveBirthDeathLimit = 7;
   const int kMinTimeout = 10;
 
-  MainWindow(Adapter adapter, QWidget *parent = nullptr);
+  explicit MainWindow(Adapter adapter, QWidget *parent = nullptr);
   ~MainWindow();
 
   void addMazeOnScene(QGraphicsScene &scene,

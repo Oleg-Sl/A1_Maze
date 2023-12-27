@@ -1,5 +1,5 @@
-#ifndef __MAZE_SOURCE_MODEL_FILESAVER_H__
-#define __MAZE_SOURCE_MODEL_FILESAVER_H__
+#ifndef __MAZE_SOURCE_MODEL_MAZE_FILESAVER_H__
+#define __MAZE_SOURCE_MODEL_MAZE_FILESAVER_H__
 
 #include "maze.h"
 
@@ -12,4 +12,4 @@ class FileSaver {
 
 }  // namespace s21
 
-#endif  // __MAZE_SOURCE_MODEL_FILESAVER_H__
+#endif  // __MAZE_SOURCE_MODEL_MAZE_FILESAVER_H__

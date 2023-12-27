@@ -1,4 +1,4 @@
-#include "maze.h"
+#include "model/maze/maze.h"
 
 #include <gtest/gtest.h>
 

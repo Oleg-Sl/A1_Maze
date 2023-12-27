@@ -6,7 +6,7 @@
 #include <numeric>
 #include <vector>
 
-#include "cell.h"
+#include "common/cell.h"
 
 namespace s21 {
 

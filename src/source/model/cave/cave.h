@@ -12,7 +12,7 @@ class Cave {
 
   Cave();
   Cave(size_t rows, size_t cols);
-  Cave(const Grid &matrix);
+  explicit Cave(const Grid &matrix);
 
   size_t get_number_living_neighbors(size_t row, size_t col);
   size_t getRows() const;

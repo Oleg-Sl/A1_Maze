@@ -1,10 +1,10 @@
-#ifndef __MAZE_SOURCE_MODEL_MAZESOLVER_H__
-#define __MAZE_SOURCE_MODEL_MAZESOLVER_H__
+#ifndef __MAZE_SOURCE_MODEL_MAZE_MAZESOLVER_H__
+#define __MAZE_SOURCE_MODEL_MAZE_MAZESOLVER_H__
 
 #include <vector>
 
 #include "maze.h"
-#include "point2d.h"
+#include "common/point2d.h"
 
 namespace s21 {
 class MazeSolver {
@@ -23,4 +23,4 @@ class MazeSolver {
 };
 }  // namespace s21
 
-#endif  // __MAZE_SOURCE_MODEL_MAZESOLVER_H__
+#endif  // __MAZE_SOURCE_MODEL_MAZE_MAZESOLVER_H__

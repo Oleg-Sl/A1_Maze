@@ -1,5 +1,5 @@
-#ifndef __MAZE_SOURCE_MODEL_MAZEGENERATOR_H__
-#define __MAZE_SOURCE_MODEL_MAZEGENERATOR_H__
+#ifndef __MAZE_SOURCE_MODEL_MAZE_MAZEGENERATOR_H__
+#define __MAZE_SOURCE_MODEL_MAZE_MAZEGENERATOR_H__
 
 #include "basemazegenerator.h"
 #include "maze.h"
@@ -25,4 +25,4 @@ class MazeGenerator : BaseMazeGenerator {
 
 }  // namespace s21
 
-#endif  // __MAZE_SOURCE_MODEL_MAZEGENERATOR_H__
+#endif  // __MAZE_SOURCE_MODEL_MAZE_MAZEGENERATOR_H__

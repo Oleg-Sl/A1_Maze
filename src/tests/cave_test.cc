@@ -1,4 +1,4 @@
-#include "../source/model/cave/cave.h"
+#include "model/cave/cave.h"
 
 #include <gtest/gtest.h>
 
