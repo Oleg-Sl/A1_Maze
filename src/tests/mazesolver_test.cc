@@ -1,5 +1,6 @@
-#include "gtest/gtest.h"
 #include "model/maze/mazesolver.h"
+
+#include "gtest/gtest.h"
 
 namespace s21 {
 
@@ -12,7 +13,7 @@ TEST(MazeSolverTest, NotPath) {
 
   // s|
   //  |e
-  //  | 
+  //  |
 
   std::vector<Point2D> path = MazeSolver().findPath(maze, {0, 0}, {1, 1});
 
