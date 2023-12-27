@@ -8,9 +8,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_compile_options(-Wall -Wextra -pedantic -Werror)
 
 if(CMAKE_BUILD_TYPE MATCHES "^Debug")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g")
+  add_compile_options(-g -O0)
 else()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -DNDEBUG")
+  add_compile_options(-O3 -DNDEBUG)
 endif()
 
 set(BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")

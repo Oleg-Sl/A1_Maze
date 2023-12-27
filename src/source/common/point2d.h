@@ -5,6 +5,10 @@ namespace s21 {
 struct Point2D {
   int x;
   int y;
+
+  bool operator==(const Point2D &other) const {
+    return x == other.x && y == other.y;
+  }
 };
 
 }  // namespace s21
