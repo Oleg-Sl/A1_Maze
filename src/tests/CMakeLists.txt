@@ -1,17 +1,53 @@
+cmake_minimum_required(VERSION 3.14)
 project(MazeTests)
 
+# GoogleTest requires at least C++14
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+
 enable_testing()
-find_package(GTest REQUIRED)
-include(GoogleTest)
-
 file(GLOB TEST_SOURCES "*.cc")
-
-add_executable(${PROJECT_NAME} ${MODEL_SOURCES} ${TEST_SOURCES})
+add_executable(
+    ${PROJECT_NAME}
+    ${MODEL_SOURCES} ${TEST_SOURCES}
+)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${HEADER_DIRS})
 
-target_link_libraries(${PROJECT_NAME} GTest::GTest GTest::Main)
+target_link_libraries(
+    ${PROJECT_NAME}
+    GTest::gtest_main
+)
 
+include(GoogleTest)
 add_definitions(-DASSETS_DIR="${ASSETS_DIR}")
-
 gtest_discover_tests(${PROJECT_NAME})
+
+
+# project(MazeTests)
+
+# enable_testing()
+# find_package(GTest REQUIRED)
+# include(GoogleTest)
+
+# file(GLOB TEST_SOURCES "*.cc")
+
+# add_executable(${PROJECT_NAME} ${MODEL_SOURCES} ${TEST_SOURCES})
+
+# target_include_directories(${PROJECT_NAME} PUBLIC ${HEADER_DIRS})
+
+# target_link_libraries(${PROJECT_NAME} GTest::GTest GTest::Main)
+
+# add_definitions(-DASSETS_DIR="${ASSETS_DIR}")
+
+# gtest_discover_tests(${PROJECT_NAME})

@@ -1,11 +1,8 @@
 project(Maze)
 
 
-if (NOT Qt6_FOUND)
-    find_package(Qt5 COMPONENTS Widgets REQUIRED)
-else()
-    find_package(Qt6 COMPONENTS Widgets REQUIRED)
-endif()
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -28,4 +25,4 @@ add_executable(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${HEADER_DIRS})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
