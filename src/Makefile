@@ -31,7 +31,7 @@ build:
 
 clean:
 	rm -rf $(DOCS_DIR)/*.aux $(DOCS_DIR)/*.log $(DOCS_DIR)/*.dvi $(DOCS_DIR)/*.pdf $(DOCS_DIR)/*.toc $(DOCS_DIR)/*.html $(DOCS_DIR)/$(PROJECT_NAME)
-	rm -rf $(PROJECT_NAME).tar
+	rm -rf $(PROJECT_NAME).tar _test_cave_file.txt
 
 dvi: $(DOCS_DIR)/$(PROJECT_NAME).texi
 	$(GEN_REPORT)
