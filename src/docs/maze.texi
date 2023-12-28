@@ -14,6 +14,8 @@
 @end titlepage
 
 
+@node Top
+@top GNU Sample
 
 
 @menu
@@ -36,24 +38,24 @@ The Maze program provides tools for generating, solving, and displaying perfect 
 
 @chapter Main features of the program
 
-@strong {Main features of the program:}
+@strong{Main features of the program:}
 @enumerate
-@item @strong {Generation of Perfect Mazes:}
+@item @strong{Generation of Perfect Mazes:}
     @itemize -
         @item A perfect maze is a maze in which there is exactly one way to reach any point from any other point.
         @item Mazes are generated using the Eller's algorithm.
         @item Generation of a perfect maze based on a specified dimension (number of rows and columns).
     @end itemize
-@item @strong {Loading Mazes from a File:}
+@item @strong{Loading Mazes from a File:}
     @itemize -
         @item Ability to load a maze from a file following a specific format.
     @end itemize 
-@item @strong {Displaying Maze Solutions:}
+@item @strong{Displaying Maze Solutions:}
     @itemize -
         @item Users can specify the starting and ending points of the maze.
         @item The program displays the maze solution as a line passing through the middle of maze cells.
     @end itemize
-@item @strong {Generation and Display of Caves:}
+@item @strong{Generation and Display of Caves:}
     @itemize -
         @item Generation of caves using a cellular automaton.
         @item Users can set the birth and death limits of cells, as well as the chance of initial cell initialization.
@@ -68,20 +70,20 @@ The Maze program provides tools for generating, solving, and displaying perfect 
 @chapter Program Interface
 
 @itemize *
-    @item @strong {Maze:} Tab for generating perfect mazes.
+    @item @strong{Maze:} Tab for generating perfect mazes.
         @itemize -
             @item @emph{import}: load a maze from a file.
             @item @emph{export}: save a maze to a file.
             @item @emph{generation}: generate a random maze (rows, cols - dimensions of the generated maze).
             @item @emph{build path}: construct a path through the maze from the "Start point" to the "End point."
         @end itemize
-    @item @strong {Cave:} Tab for generating and displaying caves.
+    @item @strong{Cave:} Tab for generating and displaying caves.
         @itemize -
-            @item @emph {import}: load a cave from a file.
-            @item @emph {export}: save a cave to a file.
-            @item @emph {generation}: generate a random cave (rows, cols - dimensions of the generated cave).
-            @item @emph {step}: perform an iteration of the cave generation algorithm.
-            @item @emph {auto}: automatically iterate the cave generation algorithm.
+            @item @emph{import}: load a cave from a file.
+            @item @emph{export}: save a cave to a file.
+            @item @emph{generation}: generate a random cave (rows, cols - dimensions of the generated cave).
+            @item @emph{step}: perform an iteration of the cave generation algorithm.
+            @item @emph{auto}: automatically iterate the cave generation algorithm.
         @end itemize
 @end itemize
 

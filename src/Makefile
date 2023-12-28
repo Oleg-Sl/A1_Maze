@@ -8,8 +8,12 @@ MACOS = Darwin
 
 ifeq ($(OS), $(MACOS))
 MEMORY_TEST = leaks -atExit --
+GEN_REPORT = cd $(DOCS_DIR) && makeinfo $(PROJECT_NAME).texi --force --html
+OPEN_REPORT = open $(DOCS_DIR)/$(PROJECT_NAME)/index.html
 else 
 MEMORY_TEST = valgrind --trace-children=yes --leak-check=yes --track-origins=yes
+GEN_REPORT = cd $(DOCS_DIR) && $(TEXI2DVI) $(PROJECT_NAME).texi --pdf
+OPEN_REPORT = open $(DOCS_DIR)/$(PROJECT_NAME).pdf
 endif
 
 
@@ -26,12 +30,12 @@ build:
 	cmake -B $(BUILD_DIR)
 
 clean:
-	rm -rf $(DOCS_DIR)/*.aux $(DOCS_DIR)/*.log $(DOCS_DIR)/*.dvi $(DOCS_DIR)/*.pdf $(DOCS_DIR)/*.toc $(DOCS_DIR)/*.html
+	rm -rf $(DOCS_DIR)/*.aux $(DOCS_DIR)/*.log $(DOCS_DIR)/*.dvi $(DOCS_DIR)/*.pdf $(DOCS_DIR)/*.toc $(DOCS_DIR)/*.html $(DOCS_DIR)/$(PROJECT_NAME)
 	rm -rf $(PROJECT_NAME).tar
 
 dvi: $(DOCS_DIR)/$(PROJECT_NAME).texi
-	cd $(DOCS_DIR) && $(TEXI2DVI) $(PROJECT_NAME).texi --pdf
-	open $(DOCS_DIR)/$(PROJECT_NAME).pdf
+	$(GEN_REPORT)
+	$(OPEN_REPORT)
 
 dist:
 	mkdir -p $(PROJECT_NAME)
